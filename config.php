@@ -5,12 +5,24 @@
     */
 
     $cfg = array (
+        // The name of the folder where the application is located
         'base_url'      => '/kit',
-        'db_user'       => 'kit',
-        'db_pass'       => 'kit',
-        'db_host'       => 'localhost',
-        'db_database'   => 'kit'
-    
+        'host'          => 'http://localhost',
+        
+        // Directories where controllers, views and models are located
+        'dir'           => array(
+            'controller'    => 'controller/',
+            'view'          => 'view/',
+            'model'         => 'model/',
+        ),
+        
+        // Database connection data
+        'db'            => array(
+            'user'          => 'kit',
+            'pass'          => 'kit',
+            'host'          => 'localhost',
+            'database'      => 'kit'
+        )    
     );
     
 ?>

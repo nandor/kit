@@ -126,7 +126,6 @@
         
         /**
             Call the specified controller
-            
             @param $controller          Controller file
             @param $function            Function from the controller
             @param $params              Parameters passed to the controller
@@ -143,22 +142,17 @@
             $func = $ctrl[1];
             
             spl_autoload_register('Router::autoload');
-            $ctrl_inst = new $class();            
-            spl_autoload_unregister('Router::autoload');
             
+            $ctrl_inst = new $class();
             if (!is_callable(array($ctrl_inst, $func))) {
                 throw new Exception("Controller $class does not have a $func method!");
             }
             
             call_user_func_array(array($ctrl_inst, $func), $params);
+            
+            spl_autoload_unregister('Router::autoload');
         } 
         
-        /**
-            Our autoload function, it simply loads controllers from the
-            specified controller directory
-            
-            @param $className           Name of the class
-        */
         public static function autoload($className)
         {
             global $cfg;
