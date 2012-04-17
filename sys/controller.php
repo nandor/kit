@@ -9,7 +9,7 @@
         
         public function __construct()
         {
-            
+            $args = array();
         }
         
         protected function view_args($array)
