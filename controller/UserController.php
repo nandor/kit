@@ -89,7 +89,10 @@
                 throw new Exception("Invalid username");
             }
                         
-            $user = $this->user->login($user, sha1($pass));
+            if (!($user = $this->user->login($user, sha1($pass))))
+            {
+                throw new Exception("Invalid username/password!");
+            }
             
             $this->redirect('');
         }    

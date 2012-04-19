@@ -45,6 +45,7 @@
             }
                      
             $this->initialize($data);
+            return true;
         }
         
         public function logged_in()
