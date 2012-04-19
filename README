@@ -5,6 +5,9 @@ Keep In Touch
 
 2. Setup
 
+	Create a new database user named kit with password kit.
+	Import database.sql in the newly created mysql database.
+
 3. Authors
 
 	Licker Nandor <licker.nandor@gmail.com>
