@@ -1,8 +1,0 @@
-<?php
-    
-    function index($req)
-    {
-        
-    }
-
-?>
