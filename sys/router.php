@@ -108,16 +108,32 @@
                     continue;
                 }
                 
-                $keys = array_keys($node['children']);
-                if (count($keys) == 1 && $keys[0][0] == '$') {
-                    $params[substr($keys[0], 1)] = $token;
-                    $node = $node['children'][$keys[0]];
-                } else {                    
-                    if (!isset($node['children'][$token])) 
+                if (!$node['children'])
+                {
+                    throw new Exception('Route does not exist!');
+                }
+                            
+                if (isset($node['children'][$token])) 
+                {
+                    $node = $node['children'][$token]; 
+                    continue;               
+                }
+                 
+                $routeFound = false;   
+                foreach ($node['children'] as $key => $next)
+                {
+                    if ($key[0] == '$')
                     {
-                        throw new Exception('Route does not exist!');    
+                        $params[substr($key[0], 1)] = $token;
+                        $node = $node['children'][$key];
+                        $routeFound = true;
+                        break;                    
                     }
-                    $node = $node['children'][$token];
+                }
+                
+                if (!$routeFound)
+                {
+                    throw new Exception('Route does not exist!'); 
                 }
             }
             
@@ -141,19 +157,27 @@
             $class = $ctrl[0];
             $func = $ctrl[1];
             
+            // Easy includes
+            set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__);    
+    
             spl_autoload_register('Router::autoload');
             
             $ctrl_inst = new $class();
+            
             if (!is_callable(array($ctrl_inst, $func))) {
                 throw new Exception("Controller $class does not have a $func method!");
             }
-            
+                        
             call_user_func_array(array($ctrl_inst, $func), $params);
             
-            spl_autoload_unregister('Router::autoload');
+            spl_autoload_unregister('Model::autoload');            
         } 
         
-        public static function autoload($className)
+        /**
+            Autoload method for controllers
+            @param $className           Name of the class
+        */
+        private static function autoload($className)
         {
             global $cfg;
             include ("{$cfg['dir']['controller']}$className.php");

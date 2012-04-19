@@ -14,6 +14,7 @@
             'controller'    => 'controller/',
             'view'          => 'view/',
             'model'         => 'model/',
+            'content'       => 'uc/'
         ),
         
         // Database connection data
@@ -21,7 +22,7 @@
             'user'          => 'kit',
             'pass'          => 'kit',
             'host'          => 'localhost',
-            'database'      => 'kit'
+            'name'          => 'kit'
         )    
     );
     

@@ -1,32 +1,29 @@
 <?    
     /**
         Main file of the kit project
-        
-        Color scheme: 0P61Tw0w0w0w0
-        
+                
         This is the file where you can set up
         the routes
     */
     
     include ('config.php');
     
+    include ('sys/error.php');
+    include ('sys/database.php');
     include ('sys/common.php');
     include ('sys/model.php');
     include ('sys/controller.php');
     include ('sys/router.php');
     
-    set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__);    
+    $router = new Router();
     
-    try {
-        $router = new Router();
-        
-        $router->pattern('/', 'HomeController::index');         
-        $router->pattern('/user/', 'UserController::user');  
-        $router->pattern('/user/$id/', 'UserController::user'); 
-        
-        $router->route($_SERVER['REQUEST_URI']);    
-    } catch (Exception $e) {
-        echo $e;
-    }
+    $router->pattern('/', 'HomeController::index');     
+    $router->pattern('/login', 'UserController::login');  
+    $router->pattern('/logout', 'UserController::logout');  
+    $router->pattern('/user', 'UserController::user');  
+    $router->pattern('/user/upload/$ext', 'UserController::upload');  
+    $router->pattern('/profile/$id', 'UserController::profile'); 
+    
+    $router->route($_SERVER['REQUEST_URI']);  
     
 ?>

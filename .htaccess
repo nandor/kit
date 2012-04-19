@@ -7,7 +7,7 @@ RewriteBase /kit/
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond $1 !^(img|script|style)
+RewriteCond $1 !^(img|script|style|uc)
 RewriteRule .* index.php [L,QSA]
 
 

@@ -1,6 +1,22 @@
+/* 
+    This file is part of the licj11c KIT project
+    Licensing information can be found in the LICENSE file
+    (c) 2012 licj11c. All rights reserved.
+*/
 
 body {
     background-color: #0E51A7;
+}
+
+h1, h2, h3, h4, h5
+{
+    line-height: 2px;
+    text-shadow: 1px 1px 2px #333;
+    color: white;
+}
+
+a {
+    text-decoration: none;
 }
 
 #toolbar 
@@ -22,38 +38,28 @@ body {
     background-color: rgba(200, 0, 0, 0.2);
 }
 
+input[type="text"], input[type="password"]
+{
+    border-radius: 10px;
+    border: 0px;
+    height: 18px;
+    outline: 0px;
+    padding-left: 5px; padding-right: 5px;
+    box-shadow: inset 0px 0px 3px #222;
+}   
+
 #toolbar #searchbox
 {
     float: left;
-    width: 190px;
-    height: 20px;
-    background-color: rgba(200, 0, 0, 0.3);
+    width: 190px; height: 20px;
     padding: 5px;
+    outline: 0px;
+    background-color: rgba(200, 0, 0, 0.3);
 }
 
 #toolbar #searchbox input
 {
-    height: 20px;
-    width: 170px;
-    border: 0px; padding: 0px; margin: 0px;
-    background: url('../img/smdl.png');
-    float: left;
-    outline: 0px;
-}
-#toolbar #searchbox img
-{
-    float: left;
-    height: 20px;
-    border: 0px; padding: 0px; margin: 0px;
-}
-
-#toolbar nav > a 
-{
-    height: 30px;
-    text-decoration: none;
-    color: white; 
-    text-shadow: 1px 1px 0.05em #333;
-    margin-top: 4px;
+    width: 180px;
 }
 
 #toolbar nav 
@@ -61,6 +67,31 @@ body {
     float: left;
     height: 30px;
     padding: 4px;
+}
+
+#toolbar nav > a 
+{
+    text-shadow: 1px 1px 0.05em #333;
+    text-decoration: none;
+    margin-top: 4px;
+    color: white; 
+    height: 30px;
+}
+
+#toolbar nav > a:hover
+{
+    color: #ccc;
+}
+
+#login input[type="text"], #login input[type="password"]
+{
+    width: 180px;
+    margin-bottom: 5px;
+}
+
+#login a
+{
+    font-size: 0.9em;
 }
 
 #container 
@@ -75,17 +106,22 @@ body {
 
 #sidebar 
 {
-    padding-top: 50px;
-    float: left;
-    width: 200px; left: 0px;
+    position: absolute;
+    width: 190px; left: 0px;
+    bottom: 0px; top: 0px;
+    padding: 5px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     background-color: lightblue;
 }
 
 #content 
 {
-    padding-top: 50px;
-    float: left;
-    width: 600px;
+    width: 590px; padding: 5px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 205px;
+    min-height: 400px;
     background-color: #C9EEEE;
 }
 
@@ -107,3 +143,70 @@ footer a
     color: white;
     text-decoration: none;
 }
+
+footer a:hover
+{
+    color: #ccc;
+}
+
+/* File upload field */
+.upload
+{
+    text-align: center;
+}
+
+.upload > div:first-child
+{
+    position: relative;
+    width: 120px; height: 120px;
+    margin-left: auto; margin-right: auto;
+}
+
+.upload .drop_normal
+{
+    border: 5px dashed gray;
+    color: white;
+}
+
+.upload .drop_over
+{
+    color: blue;
+    border: 5px dashed blue;
+}
+
+.upload .progress
+{
+    border: 1px solid gray;
+    height: 25px;
+    width: 200px;
+    margin: 10px auto 5px auto;
+}
+
+.upload .progress > div
+{
+    background-color: #0174DF;
+    height: 25px;
+}
+
+.upload .text
+{
+    position: absolute;
+    top: 0px; left: 0px; right: 0px; bottom: 0px;
+    height: 50px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    font-size: 20px;
+}
+
+.upload .preview
+{
+    position: absolute;
+    top: 0px; left: 0px; right: 0px; bottom: 0px;
+}
+
+.upload .drop_zone
+{
+    position: absolute;
+    top: 0px; left: 0px; right: 0px; bottom: 0px;
+}
+
