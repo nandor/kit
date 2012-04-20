@@ -15,6 +15,12 @@
         */
         function user()
         {
+            $this->scripts = array(
+                url('script/jquery.js'), 
+                url('script/user.js'),
+                'https://maps.googleapis.com/maps/api/js?sensor=false'
+            );
+            
             $this->render_view('head');
             $this->render_view('user');
         }
@@ -69,6 +75,7 @@
             fclose($input);
             fclose($output);
             
+            // Update the profile image
             $this->user->profile = $file_name;
         }
         

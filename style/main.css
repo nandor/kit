@@ -73,9 +73,9 @@ input[type="text"], input[type="password"]
 {
     text-shadow: 1px 1px 0.05em #333;
     text-decoration: none;
-    margin-top: 4px;
     color: white; 
     height: 30px;
+    padding: 4px 5px 0px 0px;
 }
 
 #toolbar nav > a:hover
@@ -112,7 +112,8 @@ input[type="text"], input[type="password"]
     padding: 5px;
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: lightblue;
+    background-color: lightblue;    
+    box-shadow: inset -20px 0px 20px -20px #C9EEEE;
 }
 
 #content 
@@ -150,31 +151,31 @@ footer a:hover
 }
 
 /* File upload field */
-.upload
+#upload
 {
     text-align: center;
 }
 
-.upload > div:first-child
+#upload > div:first-child
 {
     position: relative;
     width: 120px; height: 120px;
     margin-left: auto; margin-right: auto;
 }
 
-.upload .drop_normal
+#upload .drop_normal
 {
     border: 5px dashed gray;
     color: white;
 }
 
-.upload .drop_over
+#upload .drop_over
 {
     color: blue;
     border: 5px dashed blue;
 }
 
-.upload .progress
+#upload .progress
 {
     border: 1px solid gray;
     height: 25px;
@@ -182,13 +183,13 @@ footer a:hover
     margin: 10px auto 5px auto;
 }
 
-.upload .progress > div
+#upload .progress > div
 {
     background-color: #0174DF;
     height: 25px;
 }
 
-.upload .text
+#upload .text
 {
     position: absolute;
     top: 0px; left: 0px; right: 0px; bottom: 0px;
@@ -198,15 +199,41 @@ footer a:hover
     font-size: 20px;
 }
 
-.upload .preview
+#upload .preview
 {
     position: absolute;
     top: 0px; left: 0px; right: 0px; bottom: 0px;
 }
 
-.upload .drop_zone
+#upload .drop_zone
 {
     position: absolute;
     top: 0px; left: 0px; right: 0px; bottom: 0px;
 }
 
+#profile > img
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#address
+{
+    height: 230px;
+}
+
+#address input
+{
+    width: 573px;
+    height: 25px;
+    margin: 3px;
+}
+
+#address .addr_map
+{
+    width: 310px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}

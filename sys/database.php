@@ -21,9 +21,65 @@
             mysql_close($this->conn);
         }        
         
-        private function query($command, $args)
+        private function query($query, $fetch = true)
         {
-
+            $result = mysql_query($query);
+            
+            if (!$result)
+            {
+                return null;
+            }
+            
+            if ($fetch)
+            {   
+                $num = mysql_num_rows($result);
+                
+                if ($num == 0) 
+                {
+                    return mysql_fetch_array($result, MYSQL_ASSOC);
+                }
+                else 
+                {
+                    $data = array();
+                    for ($i = 0; $i < $num; $i++)
+                    {
+                        $data[$i] = mysql_fetch_array($result, MYSQL_ASSOC);
+                    }
+                    
+                    return $data;
+                }
+            }
+            
+            return $result;
+        }
+        
+        private function insert($table, $args)
+        {
+            $columns = "";
+            $values = "";
+            
+            $arg_count = count($args);
+            $count = 0;
+            
+            foreach ($args as $key => $value)
+            {
+                $columns .= "`$key`";
+                $values .= "'$value'";
+                $count++;
+                
+                if ($count < $arg_count)
+                {
+                    $columns .= ",";
+                    $values .= ",";
+                }
+            }            
+            
+            $query = "INSERT INTO `$table` ($columns) VALUES ($values)";
+            
+            if (!mysql_query($query))
+            {
+                throw new Exception("Cannot insert data into database!");
+            }
         }
         
         private function select($table, $arguments)

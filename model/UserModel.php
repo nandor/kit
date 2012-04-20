@@ -80,6 +80,13 @@
             DB::update('users', $this->user_data['id'], array(
                 $name => $value
             ));
+            
+            DB::insert('timeline', array(
+                'user' => $this->user_data['id'],
+                'field' => $name,
+                'date' => time(),
+                'value' => $value
+            ));
         }
         
         private function initialize($db_data)
