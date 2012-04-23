@@ -16,8 +16,7 @@
     
     function error_handler($errno, $errstr, $errfile, $errline)
     {
-        echo "[$errfile:$errline]: $errstr";
-        
+        include ('error.php');
         return true;
     }
     

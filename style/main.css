@@ -85,6 +85,53 @@ input[type="text"], input[type="password"]
     color: #ccc;
 }
 
+#error_mbox
+{
+    width: 380px;
+    margin: 150px auto 0px auto;
+    background-color: #FF9900;
+    text-align: center;
+    box-shadow: 0px 0px 5px lightblue;
+}
+
+#error_mbox .title
+{
+    color: red;
+    font-size: 46px;
+    text-shadow: 1px 1px 2px #333;
+    display: block;
+}
+
+#error_mbox .error
+{
+    font-size: 20px;
+}
+
+#error_mbox p
+{
+    padding: 10px;
+}
+
+#error_mbox a 
+{
+    color: white;
+    text-decoration: none;
+}
+
+#error_mbox a:hover
+{
+    color: #ccc;
+}
+
+#error_mbox .footer
+{  
+    color: white;
+    font-size: 12px;
+    border-top: 5px solid darkblue;
+    text-shadow: 1px 1px 0.05em #333;
+    background-color: #0D58A6;
+}
+
 #login input[type="text"], #login input[type="password"]
 {
     width: 180px;
@@ -129,9 +176,9 @@ input[type="text"], input[type="password"]
 
 footer 
 {
-    border-top: 5px solid darkblue;
     position: absolute;
     height: 70px; right: 0px; left: 0px;
+    border-top: 5px solid darkblue;
     text-shadow: 1px 1px 0.05em #333;
     background-color: #0D58A6;
     color: white;

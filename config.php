@@ -8,6 +8,7 @@
         // The name of the folder where the application is located
         'base_url'      => '/kit',
         'host'          => 'http://localhost',
+        'debug'         => true,
         
         // Directories where controllers, views and models are located
         'dir'           => array(
@@ -23,7 +24,7 @@
             'pass'          => 'kit',
             'host'          => 'localhost',
             'name'          => 'kit'
-        )    
+        )
     );
     
 ?>

@@ -14,7 +14,7 @@
         {
             $this->scripts = array(
                 url('script/jquery.js'), 
-                url('script/user.js')
+                url('script/main.js')
             );
             $this->render_view('head');
             $this->render_view('index');
