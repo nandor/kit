@@ -13,7 +13,7 @@
                     </form>                    
                 </div>
                 <? else: ?>
-                <? $this->render_view('profile'); ?> 
+                <? $this->render_view('profile_short'); ?> 
                 <? endif; ?>
             </div> 
             <div id = "content">

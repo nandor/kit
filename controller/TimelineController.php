@@ -8,17 +8,43 @@
             $this->user = Model::load('UserModel');
         }
         
-        public function index()
-        {            
-            $this->timeline_data = DB::query(
-                "SELECT * FROM `timeline` WHERE 
-                `user` = '{$this->user->id}' 
-                ORDER BY `date` ASC"
-            );
-                        
+        public function display($user_list)
+        {   
+            $users = array();
+            if (preg_match('/[0-9\/]+/', $user_list))
+            {
+                $user_list_expanded = explode('/', $user_list);
+                foreach ($user_list_expanded as $user)
+                {
+                    $users[] = $this->user->get_timeline($user);
+                }
+            }
+            else
+            {        
+                $users[] = $this->user->get_timeline($this->user->id);
+            }
+            
+            if (empty($users))
+            {
+                throw new Exception("No users selected!");
+            }            
+            
+            $timeline_steps = array();
+            
+            foreach ($users as $user)
+            {
+                foreach ($user as $event)
+                {
+                    $timeline_steps[] = $event['date'];
+                }
+            }
+            
+            $timeline_steps = array_unique($timeline_steps, SORT_STRING);
+            
+            $this->timeline_steps = $timeline_steps;
             $this->render_view('head');
             $this->render_view('timeline');
-        } 
+        }
     };
 
 ?>

@@ -7,6 +7,7 @@
         private $id;
         private $logged_in;
         private $user_data;
+        private $table_name = 'users';
         
         public function __construct()
         {
@@ -17,7 +18,7 @@
             // retrieve user data from session
             session_start();     
             if (isset($_SESSION['id'])) {
-                $data = DB::select('users', array('id' => $_SESSION['id']));
+                $data = DB::select($this->table_name, array('id' => $_SESSION['id']));
                 
                 if ($data && $data['id']) {
                     $this->logged_in = true;
@@ -33,7 +34,7 @@
                 $this->logout();
             }
             
-            $data = DB::select('users', array(
+            $data = DB::select($this->table_name, array(
                 'name' => $name,
                 'pass' => $pass
             ));
@@ -77,16 +78,39 @@
                 return null;
             }
             
-            DB::update('users', $this->user_data['id'], array(
+            DB::update($this->table_name, $this->user_data['id'], array(
                 $name => $value
             ));
             
             DB::insert('timeline', array(
                 'user' => $this->user_data['id'],
                 'field' => $name,
-                'date' => time(),
+                'date' => date('Y-n-j'),
                 'value' => $value
             ));
+        }
+        
+        public function getById($id)
+        {            
+            return DB::select($this->table_name, array(
+                'id' => $id
+            ));
+        }
+        
+        public function getByName($name)
+        {
+            return DB::select($this->table_name, array(
+                'name' => $name
+            ));
+        }
+        
+        public function get_timeline($id)
+        {
+            return DB::query(
+                "SELECT * FROM `timeline` WHERE 
+                `user` = '".mysql_real_escape_string($id)."' 
+                ORDER BY `date` ASC"
+            );
         }
         
         private function initialize($db_data)
@@ -98,4 +122,3 @@
     };
 
 ?>
-

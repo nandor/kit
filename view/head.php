@@ -24,7 +24,7 @@
                 <nav>
                     <a href = "<?=url('');?>"> Home </a>
                     <? if ($this->user->logged_in()): ?>    
-                        <a href = "<?=url('user');?>">Profile</a>
+                        <a href = "<?=url('user/edit');?>">Profile</a>
                         <a href = "<?=url('timeline');?>">Timeline</a>
                         <a href = "<?=url('logout');?>">Logout</a>
                     <? endif; ?>

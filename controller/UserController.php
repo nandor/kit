@@ -22,7 +22,7 @@
             );
             
             $this->render_view('head');
-            $this->render_view('user');
+            $this->render_view('profile_edit');
         }
         
         /**
@@ -30,13 +30,29 @@
         */
         function profile($id)
         {
+            if (!isset($id) || !$id)
+            {
+                throw new Exception ("Invalid id");
+            }
             
+            $this->user_data = $this->user->getForeignData($id);
+            
+            $this->render_view('head');
+            $this->render_view('profile_view');
+        }
+        
+        /**
+            Saves changes to the user profile
+        */
+        function save()
+        {
+        
         }
         
         /**
             Upload a profile picture for a user  
         */
-        function upload($ext)
+        function save_picture($ext)
         {
             global $cfg;
             

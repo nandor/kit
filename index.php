@@ -17,13 +17,27 @@
     
     $router = new Router();
     
+    // Homepage
     $router->pattern('/', 'HomeController::index');     
+    
+    // Authentication
     $router->pattern('/login', 'UserController::login');  
-    $router->pattern('/logout', 'UserController::logout');      
-    $router->pattern('/user', 'UserController::user');  
-    $router->pattern('/user/upload/$ext', 'UserController::upload');      
+    $router->pattern('/logout', 'UserController::logout');     
+    
+    // Profile display 
     $router->pattern('/profile/$id', 'UserController::profile'); 
-    $router->pattern('/timeline/', 'TimelineController::index');
+    
+    // Profile edit
+    $router->pattern('/user/edit', 'UserController::user');          
+    $router->pattern('/user/save', 'UserController::save');  
+    $router->pattern('/user/upload/$ext', 'UserController::save_picture'); 
+    
+    // Timeline
+    $router->pattern('/timeline/', 'TimelineController::display');
+    $router->pattern('/timeline/$list', 'TimelineController::display');
+    
+    // REST API
+    $router->pattern('/api/user/$id', 'APIController::get_user');
     
     $router->route($_SERVER['REQUEST_URI']);  
     
