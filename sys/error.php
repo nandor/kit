@@ -6,18 +6,15 @@
     
     function exception_handler($exception)
     {
-        error_handler(
-            E_USER_ERROR, 
-            $exception->getMessage(), 
-            $exception->getFile(), 
-            $exception->getLine()
-        );
+        global $cfg;
+        
+        include ($cfg['error_page']);
+        return true;
     }
     
     function error_handler($errno, $errstr, $errfile, $errline)
     {
-        include ('error.php');
-        return true;
+        throw new Exception($errstr);
     }
     
     set_error_handler('error_handler');

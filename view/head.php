@@ -3,6 +3,8 @@
     <head>
         <title> KIT </title>
         
+        <link rel = "stylesheet" type = "text/css" href = "<?=url('style/main.css');?>" />
+        
         <?php
             if ($this->scripts)
             {
@@ -12,8 +14,6 @@
                 }
             }
         ?>
-        
-        <link rel = "stylesheet" type = "text/css" href = "<?=url('style/main.css');?>" />
     </head>
     <body>
         <div id = "toolbar">
@@ -23,7 +23,7 @@
                 </div>
                 <nav>
                     <a href = "<?=url('');?>"> Home </a>
-                    <? if ($this->user->logged_in()): ?>    
+                    <? if ($this->user && $this->user->logged_in()): ?>    
                         <a href = "<?=url('user/edit');?>">Profile</a>
                         <a href = "<?=url('timeline');?>">Timeline</a>
                         <a href = "<?=url('logout');?>">Logout</a>

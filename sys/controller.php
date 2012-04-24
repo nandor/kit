@@ -1,5 +1,8 @@
 <?php
     
+    define('MSG_ERROR', 0);
+    define('MSG_OKAY',  1);
+    
     /**
         Base class for the controllers
     */
@@ -55,6 +58,24 @@
         public function __set($name, $value)
         {
             $this->values[$name] = $value;
+        }
+        
+        /**
+            Add a new message to be displayed by the message view
+            @param $msg          Text message
+            @param $type         Type of the message
+        */
+        public function message($msg, $type = MSG_OKAY)
+        {
+            if (!isset($_SESSION['messages']))
+            {
+                $_SESSION['messages'] = array();
+            }
+         
+            $_SESSION['messages'][] = array(
+                'msg' => $msg,
+                'type' => $type
+            );
         }
     };
 

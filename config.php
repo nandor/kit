@@ -9,6 +9,7 @@
         'base_url'      => '/kit',
         'host'          => 'http://localhost',
         'debug'         => true,
+        'error_page'    => 'view/error.php',
         
         // Directories where controllers, views and models are located
         'dir'           => array(
@@ -26,5 +27,4 @@
             'name'          => 'kit'
         )
     );
-    
 ?>

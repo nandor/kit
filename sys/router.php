@@ -15,6 +15,8 @@
         */
         public function __construct()
         {
+            session_start();     
+            
             $this->root = array(
                 'route' => null,
                 'children' => array()
@@ -137,6 +139,10 @@
                 }
             }
             
+            if (!$node['route'])
+            {
+                throw new Exception('Route does not exist!');
+            }
             $this->call_controller($node['route'], $params);
         }
         
@@ -149,7 +155,6 @@
         private function call_controller($control, $params)
         {
             $ctrl = preg_split('/::/', $control);
-            
             if (count ($ctrl) != 2) {
                 throw new Exception('Invalid controller description');
             }

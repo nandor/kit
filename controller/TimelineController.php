@@ -8,12 +8,12 @@
             $this->user = Model::load('UserModel');
         }
         
-        public function display($user_list)
+        public function display($list = null)
         {   
             $users = array();
-            if (preg_match('/[0-9\/]+/', $user_list))
+            if (preg_match('/[0-9\/]+/', $list))
             {
-                $user_list_expanded = explode('/', $user_list);
+                $user_list_expanded = explode('/', $list);
                 foreach ($user_list_expanded as $user)
                 {
                     $users[] = $this->user->get_timeline($user);
@@ -42,6 +42,11 @@
             $timeline_steps = array_unique($timeline_steps, SORT_STRING);
             
             $this->timeline_steps = $timeline_steps;
+            $this->scripts = array(
+                url('script/jquery.js'),
+                url('script/timeline.js')
+            );
+                
             $this->render_view('head');
             $this->render_view('timeline');
         }

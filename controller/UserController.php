@@ -79,7 +79,7 @@
             {
                 throw new Exception("Cannot open files!");
             }
-            
+                
             while ($size > 0)
             {
                 $data = fread($input, $size > 1024 ? 1024 : $size);
@@ -106,8 +106,7 @@
             $pass = isset($_POST['pass']) ? $_POST['pass'] : null;
             
             // Check the username
-            if (!$user || strlen($user) > 30 || 
-                preg_match('/^[a-zA-Z0-9]+$/', $user) != 1) 
+            if (!$user || !preg_match('/^[a-zA-Z0-9]{4,30}$/', $user)) 
             {
                 throw new Exception("Invalid username");
             }
@@ -127,6 +126,35 @@
         {
             $this->user->logout();
             
+            $this->redirect('');
+        }
+                
+        /**
+            Do the user registration
+        */
+        function register()
+        {
+            if (!isset($_POST['user']) || !preg_match('/^[a-zA-Z0-9]{4,30}$/', $_POST['user']))
+            {
+                throw new Exception("Invalid username");
+            }
+                                        
+            if (!isset($_POST['pass'], $_POST['cpass']) || !preg_match('/^[a-zA-Z0-9!@#$%^&*]{6,30}$/', $_POST['pass']))
+            {
+                throw new Exception("Invalid password!");
+            }
+            
+            if ($_POST['pass'] != $_POST['cpass'])
+            {
+                throw new Exception("Passwords do not match!");
+            }
+            
+            $pass = $_POST['pass'];
+            $user = $_POST['user'];
+            
+            $this->user->logout();            
+            $this->user->add($user, $pass);
+            $this->message('Registration successful! You can log in now!');
             $this->redirect('');
         }
     };

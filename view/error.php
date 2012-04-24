@@ -8,17 +8,18 @@
         <div id = "toolbar"></div>
         <div id = "error_mbox">
             <span class = "title">Ooops!</span>
-            <p class = "error"><?=$errstr;?></p>
-            <p>
+            <p class = "error"><?=$exception->getMessage();?></p>
+            <span>
             <?php 
                 global $cfg;
                 
                 if ($cfg['debug'])
                 {
-                    echo "[$errfile:$errline]";
+                    echo "[{$exception->getFile()}:{$exception->getLine()}]";
                 }
             ?>
-            </p>
+            </span>
+            <a class = "home" href = "<?=url('');?>"> Home </a>
             <div class = "footer">
                 <p>
                     <a href = "<?=url('about');?>">About</a> |

@@ -16,7 +16,6 @@
             $this->user_data = null;
                
             // retrieve user data from session
-            session_start();     
             if (isset($_SESSION['id'])) {
                 $data = DB::select($this->table_name, array('id' => $_SESSION['id']));
                 
@@ -56,7 +55,7 @@
                 
         public function logout()
         {   
-            session_destroy();
+            unset($_SESSION['id']);
             $this->logged_in = false;
         }
         
@@ -87,6 +86,20 @@
                 'field' => $name,
                 'date' => date('Y-n-j'),
                 'value' => $value
+            ));
+        }
+        
+        public function add($name, $pass)
+        {
+            if (DB::select($this->table_name, array('name' => $name)))
+            {
+                throw new Exception("Username already used!");
+            }
+            
+            DB::insert($this->table_name, array(
+                'name' => $name, 
+                'pass' => sha1($pass),
+                'time_registered' => time()
             ));
         }
         

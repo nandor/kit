@@ -19,10 +19,11 @@
     
     // Homepage
     $router->pattern('/', 'HomeController::index');     
-    
+   
     // Authentication
     $router->pattern('/login', 'UserController::login');  
     $router->pattern('/logout', 'UserController::logout');     
+    $router->pattern('/register', 'UserController::register');
     
     // Profile display 
     $router->pattern('/profile/$id', 'UserController::profile'); 
@@ -35,6 +36,9 @@
     // Timeline
     $router->pattern('/timeline/', 'TimelineController::display');
     $router->pattern('/timeline/$list', 'TimelineController::display');
+    
+    // Groups
+    $router->pattern('/group/$id', 'GroupController::display_group');
     
     // REST API
     $router->pattern('/api/user/$id', 'APIController::get_user');

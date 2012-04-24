@@ -1,9 +1,9 @@
-<div id = "container">
+        <div id = "container">
             <div id = "sidebar">
-                <? $this->render_view('profile_short'); ?>       
+                short description of the group
             </div> 
             <div id = "content">
-                <? var_dump($this->user_data); ?>
+                Full description of the group
             </div>
             <? $this->render_view('footer'); ?>
         </div>

@@ -6,6 +6,7 @@
 
 body {
     background-color: #0E51A7;
+    font-family: "Arial";
 }
 
 h1, h2, h3, h4, h5
@@ -102,6 +103,11 @@ input[type="text"], input[type="password"]
     display: block;
 }
 
+#error_mbox .home
+{
+    font-size: 24px;
+}
+
 #error_mbox .error
 {
     font-size: 20px;
@@ -138,9 +144,38 @@ input[type="text"], input[type="password"]
     margin-bottom: 5px;
 }
 
-#login a
+#login input[type="submit"]
 {
-    font-size: 0.9em;
+    display: block;
+    width: 70px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#login form
+{
+    margin-bottom: 30px;
+}
+
+#messages > div
+{
+    text-align: center;
+    margin: 3px;    
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#messages .okay
+{
+    background-color: #01DF01;
+    border: 1px solid green;
+}
+
+#messages .error
+{
+    background-color: #FF4000;
+    border: 1px solid #B40404;
 }
 
 #container 
@@ -303,5 +338,42 @@ footer a:hover
 {
     width: 350px;
     height: 200px;
+}
+
+#timeline
+{
+    position: absolute;
+    left: 0px; right: 0px; top: 30px; bottom: 0px;
+}
+
+#timeline .bar_horz_holder
+{
+    position: absolute;
+    left: 200px; right: 0px; top: 0px; height: 40px;
+}
+
+#timeline .bar_horz
+{  
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0px;
+}
+
+#timeline .bar_horz td
+{
+    padding: 0px; margin: 0px;
+    height: 40px;
+    width: 100px;
+    border-bottom: 1px solid #333;
+    background-color: lightblue;
+    text-align: center;
+    box-shadow: inset 10px 0px 10px -10px #333, inset -5px 0px 10px -5px #333;
+}
+
+#timeline .bar_vert_holder
+{
+    position: absolute;
+    left: 0px; top: 40px; bottom: 0px; width: 200px;
+    background-color: white;
 }
 
