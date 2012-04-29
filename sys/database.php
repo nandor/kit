@@ -21,10 +21,15 @@
             mysql_close($this->conn);
         }        
         
+        private function escape($data)
+        {
+            return mysql_real_escape_string($data);
+        }
+        
         private function query($query, $fetch = true)
         {
             $result = mysql_query($query);
-            
+              
             if (!$result)
             {
                 return null;
@@ -34,7 +39,7 @@
             {   
                 $num = mysql_num_rows($result);
                 
-                if ($num == 0) 
+                if ($num == 1) 
                 {
                     return mysql_fetch_array($result, MYSQL_ASSOC);
                 }
@@ -49,10 +54,9 @@
                     return $data;
                 }
             }
-            
             return $result;
         }
-        
+         
         private function insert($table, $args)
         {
             $columns = "";
@@ -100,15 +104,8 @@
                     $query .= " AND ";
                 }
             }
-            
-            $result = mysql_query($query);
-            
-            if (!$result)
-            {
-                return false;
-            }
-            
-            return mysql_fetch_array($result, MYSQL_ASSOC);
+                   
+            return $this->query($query);
         }
         
         private function update($table, $id, $data)

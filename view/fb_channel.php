@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="//connect.facebook.net/en_US/all.js"></script>        
+    </head>
+</html>

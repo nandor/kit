@@ -1,4 +1,6 @@
 <?php
+    include ('lib/facebook.php');
+    
     /**
         User controller
     */
@@ -15,10 +17,12 @@
         */
         function user()
         {
+            global $cfg;
             $this->scripts = array(
                 url('script/jquery.js'), 
                 url('script/user.js'),
-                'https://maps.googleapis.com/maps/api/js?sensor=false'
+                'https://maps.googleapis.com/maps/api/js?sensor=false',
+                'https://apis.google.com/js/client.js?onload=OnLoadCallback'
             );
             
             $this->render_view('head');
@@ -35,7 +39,7 @@
                 throw new Exception ("Invalid id");
             }
             
-            $this->user_data = $this->user->getForeignData($id);
+            $this->user_data = $this->user->get_by_id($id);
             
             $this->render_view('head');
             $this->render_view('profile_view');
@@ -46,7 +50,16 @@
         */
         function save()
         {
-        
+            $new_data = array();
+            
+            if (isset($_POST['address']) && $_POST['address'] != $this->user->address)
+            {
+                $new_data['address'] = $_POST['address'];
+            }
+            
+            $this->user->update($new_data);
+            $this->message('Profile changed successfuly!');
+            $this->redirect('');
         }
         
         /**

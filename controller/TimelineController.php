@@ -6,42 +6,59 @@
         {
             parent::__construct();            
             $this->user = Model::load('UserModel');
+            $this->group = Model::load('GroupModel');
         }
         
-        public function display($list = null)
-        {   
-            $users = array();
-            if (preg_match('/[0-9\/]+/', $list))
+        public function user($id = null)
+        {
+            if ($id == null)
             {
-                $user_list_expanded = explode('/', $list);
-                foreach ($user_list_expanded as $user)
+                if (!$this->user->logged_in())
                 {
-                    $users[] = $this->user->get_timeline($user);
+                    throw new Exception("Access denied!");
                 }
-            }
-            else
-            {        
-                $users[] = $this->user->get_timeline($this->user->id);
+                
+                $id = $this->user->id;
             }
             
-            if (empty($users))
+            $this->display(array($id => $this->user->get_by_id($id)), $this->user->get_timeline($id));
+        }
+        
+        public function group($id = null)
+        {
+            if ($id == null && (!$this->user->logged_in() || !($id = $this->user->group)))
             {
-                throw new Exception("No users selected!");
-            }            
+                throw new Exception("Access denied!");
+            }
             
-            $timeline_steps = array();
+            $users = $this->group->get_users($id);
+            
+            $data = array();
+            $users_by_id = array();
             
             foreach ($users as $user)
             {
-                foreach ($user as $event)
-                {
-                    $timeline_steps[] = $event['date'];
-                }
+                $data = array_merge($data, $this->user->get_timeline($user['id']));
+                $users_by_id[$user['id']] = $user;
             }
+            $this->display($users_by_id, $data);
+        }
+
+        private function display($users, $events)
+        {   
+            if (!$events || !$events[0])
+            {
+                throw new Exception("User / Group not found!");
+            }
+
+            usort($events, function ($a, $b)
+            {
+                return strcasecmp($a['date'], $b['date']);
+            });
             
-            $timeline_steps = array_unique($timeline_steps, SORT_STRING);
+            $this->events = $events;
+            $this->users = $users;
             
-            $this->timeline_steps = $timeline_steps;
             $this->scripts = array(
                 url('script/jquery.js'),
                 url('script/timeline.js')

@@ -11,6 +11,8 @@
         
         public function __construct()
         {
+            parent::__construct();
+            
             $this->logged_in = false;
             $this->id = null;
             $this->user_data = null;
@@ -68,13 +70,13 @@
             
             return $this->user_data[$name];
         }
-        
+                
         public function __set($name, $value)
         {
             if (!$this->logged_in() || !$this->user_data || 
                 !isset($this->user_data[$name]))
             {
-                return null;
+                throw new Exception("Invalid field!");
             }
             
             DB::update($this->table_name, $this->user_data['id'], array(
@@ -87,6 +89,39 @@
                 'date' => date('Y-n-j'),
                 'value' => $value
             ));
+        }
+        
+        public function update($data)
+        {
+            if (!$this->logged_in() || !$this->user_data)
+            {
+                throw new Exception("User nod logged in!");
+            }
+            
+            if (empty($data))
+            {
+                return;
+            }
+            
+            foreach ($data as $field => $value)
+            {
+                if (!isset($this->user_data[$field]))
+                {
+                    throw new Exception("Invalid field!");
+                }
+            }
+            
+            DB::update($this->table_name, $this->user_data['id'], $data);
+            
+            foreach ($data as $field => $value)
+            {
+                DB::insert('timeline', array(
+                    'user' => $this->user_data['id'],
+                    'field' => $field,
+                    'date' => date('Y-n-j'),
+                    'value' => $value
+                ));
+            }
         }
         
         public function add($name, $pass)
@@ -103,14 +138,19 @@
             ));
         }
         
-        public function getById($id)
-        {            
+        public function get_by_id($id)
+        {       
+            if ($this->logged_in && $id == $this->user_data['id'])
+            {
+                return $this->user_data;
+            }
+            
             return DB::select($this->table_name, array(
                 'id' => $id
             ));
         }
         
-        public function getByName($name)
+        public function get_by_name($name)
         {
             return DB::select($this->table_name, array(
                 'name' => $name
@@ -129,7 +169,7 @@
         private function initialize($db_data)
         {
             $this->user_data = $db_data;
-            
+                      
             $_SESSION['id'] = $this->user_data['id'];
         }
     };

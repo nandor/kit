@@ -19,11 +19,11 @@
             $user = null;
             if (preg_match('/^[0-9]+$/', $id))
             {
-                $user = $this->user->getById($id);   
+                $user = $this->user->get_by_id($id);   
             }
             else
             {
-                $user = $this->user->getByName($id);
+                $user = $this->user->get_by_name($id);
             }
             
             if (!$user)

@@ -8,9 +8,92 @@ var map, geocoder;
 
 $(document).ready(function()
 {
+    init_facebook();
     init_upload();
     init_map();
 });
+
+function OnLoadCallback()
+{
+    init_google();
+}
+
+function init_facebook()
+{
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : fb_app_id,
+            channelUrl : fb_channel_url,
+            status     : true,
+            cookie     : true,
+            xfbml      : true  // parse XFBML
+        });
+    };
+
+    (function(d){
+        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        ref.parentNode.insertBefore(js, ref);
+    }(document));
+    
+    $("#facebook_import").click(function()
+    {
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                var uid = response.authResponse.userID;
+                var accessToken = response.authResponse.accessToken;
+                
+                fb_import_data();
+            } else {
+                FB.login(function(response) {
+                    if (response.status == 'connected')
+                    {
+                        fb_import_data();
+                    } else {                    
+                        alert("Cannot connect to Facebook!");
+                    }
+                }, {
+                    scope: fb_scope
+                });
+            }
+        });
+    });
+    
+    function fb_import_data()
+    {
+        FB.api('/me', function(response) {
+            if (response.name)
+            {
+                $('input[name="fullname"]').val(response.name);
+            }
+            
+            if (response.location)
+            {
+                $('input[name="address"]').val(response.location.name);
+            }
+        });
+    }
+}
+
+function init_google()
+{
+    gapi.client.load('plus', 'v1', function() {    
+        gapi.client.setApiKey('AIzaSyCrOywnmHqUvUjDsd2f8V4KA5K53QIHHG8');
+
+        $("#google_import").click(function()
+        {           
+            gapi.auth.authorize({
+                client_id: google_client_id, 
+                scope: google_scopes, 
+                immediate: false
+            }, function (response)
+            {
+            });
+        });
+    });
+}
 
 function init_upload()
 {    

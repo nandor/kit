@@ -7,6 +7,7 @@
 body {
     background-color: #0E51A7;
     font-family: "Arial";
+    padding: 0px; margin: 0px;
 }
 
 h1, h2, h3, h4, h5
@@ -26,9 +27,12 @@ a {
     position: fixed;
     top: 0px; left: 0px; right: 0px; height: 30px;
     box-shadow: 0px 0px 5px 2px #FF5F00;
-    background-image: url('../img/toolbar.png');
-    background-color: blue;
     z-index: 1000;
+    
+    background: -moz-linear-gradient(top, #ffc900, #ff8700);
+    background: -webkit-linear-gradient(top, #ffc900, #ff8700);
+    background: -o-linear-gradient(top, #ffc900, #ff8700);
+    background: -ms-linear-gradient(top, #ffc900, #ff8700);
 }
 
 #toolbar > div
@@ -198,15 +202,14 @@ input[type="text"], input[type="password"]
     box-shadow: inset -20px 0px 20px -20px #C9EEEE;
 }
 
-#content 
+#content, #timeline
 {
-    width: 790px; padding: 5px;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    padding-left: 205px;
+    width: 790px;
     min-height: 400px;
     background-color: #C9EEEE;
     box-shadow: 0px -5px 5px lightblue;
+    padding: 40px 5px 40px 205px;
+    padding: 40px 5px 40px 205px;
 }
 
 footer 
@@ -327,7 +330,7 @@ footer a:hover
     margin-right: auto;
 }
 
-#address input, #university input
+.profile_edit input[type="text"]
 {
     margin: 3px auto 3px auto;
     width: 330px;
@@ -340,40 +343,73 @@ footer a:hover
     height: 200px;
 }
 
-#timeline
+
+#timeline .year
 {
-    position: absolute;
-    left: 0px; right: 0px; top: 30px; bottom: 0px;
+    padding-bottom: 20px;
 }
 
-#timeline .bar_horz_holder
+#timeline img
 {
-    position: absolute;
-    left: 200px; right: 0px; top: 0px; height: 40px;
+    vertical-align: middle;
 }
 
-#timeline .bar_horz
-{  
-    width: 100%;
-    table-layout: fixed;
-    border-spacing: 0px;
+#timeline .year_title
+{
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #333;
+    background-color: #FF8000;
+    padding: 2px;
+    cursor: pointer;
 }
 
-#timeline .bar_horz td
+#timeline .year_title:hover
 {
-    padding: 0px; margin: 0px;
-    height: 40px;
-    width: 100px;
-    border-bottom: 1px solid #333;
+    background-color: #FF9000;
+}
+
+
+#timeline .year_content
+{
+    border-left: 2px solid #FF8000;
+    padding: 5px;
+}
+
+#timeline .month_title
+{
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #333;
     background-color: lightblue;
-    text-align: center;
-    box-shadow: inset 10px 0px 10px -10px #333, inset -5px 0px 10px -5px #333;
+    margin-top: 10px;
+    padding: 2px;
+    cursor: pointer;
 }
 
-#timeline .bar_vert_holder
+#timeline .month_content
 {
-    position: absolute;
-    left: 0px; top: 40px; bottom: 0px; width: 200px;
-    background-color: white;
+    border-left: 3px solid lightblue;
+    padding: 5px;
+}
+
+#timeline .event
+{
+    margin: 5px;
+}
+
+#timeline .event > .time
+{
+    background-color: lightblue;
+    border: 1px solid lightblue;
+    padding: 2px;
+    margin-bottom: 5px;
+}
+
+#facebook_import, #google_import
+{
+    cursor: pointer;
 }
 

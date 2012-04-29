@@ -135,13 +135,13 @@
                 
                 if (!$routeFound)
                 {
-                    throw new Exception('Route does not exist!'); 
+                    throw new Exception('Page does not exist'); 
                 }
             }
             
             if (!$node['route'])
             {
-                throw new Exception('Route does not exist!');
+                throw new Exception('Page does not exist');
             }
             $this->call_controller($node['route'], $params);
         }
