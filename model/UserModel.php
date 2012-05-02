@@ -83,15 +83,18 @@
                 $name => $value
             ));
             
-            DB::insert('timeline', array(
-                'user' => $this->user_data['id'],
-                'field' => $name,
-                'date' => date('Y-n-j'),
-                'value' => $value
-            ));
+            if ($timeline_add)
+            {
+                DB::insert('timeline', array(
+                    'user' => $this->user_data['id'],
+                    'field' => $name,
+                    'date' => date('Y-n-j'),
+                    'value' => $value
+                ));
+            }
         }
         
-        public function update($data)
+        public function update($data, $timeline_add = true)
         {
             if (!$this->logged_in() || !$this->user_data)
             {
@@ -109,18 +112,22 @@
                 {
                     throw new Exception("Invalid field!");
                 }
+                $this->user_data[$field] = $value;
             }
             
             DB::update($this->table_name, $this->user_data['id'], $data);
             
-            foreach ($data as $field => $value)
+            if ($timeline_add)
             {
-                DB::insert('timeline', array(
-                    'user' => $this->user_data['id'],
-                    'field' => $field,
-                    'date' => date('Y-n-j'),
-                    'value' => $value
-                ));
+                foreach ($data as $field => $value)
+                {
+                    DB::insert('timeline', array(
+                        'user' => $this->user_data['id'],
+                        'field' => $field,
+                        'date' => date('Y-n-j'),
+                        'value' => $value
+                    ));
+                }
             }
         }
         
@@ -138,7 +145,7 @@
             ));
         }
         
-        public function get_by_id($id)
+        public function get_by_id($id = null)
         {       
             if ($this->logged_in && $id == $this->user_data['id'])
             {
@@ -150,11 +157,31 @@
             ));
         }
         
+        public function get_data()
+        {
+            if (!$this->logged_in)
+            {
+                throw new Exception("User must be logged in!");
+            }
+            
+            return $this->user_data;
+        }
+        
         public function get_by_name($name)
         {
             return DB::select($this->table_name, array(
                 'name' => $name
             ));
+        }
+        
+        public function get_trail($id)
+        {
+            return DB::query(
+                "SELECT * FROM `timeline` WHERE
+                `user` = '".mysql_real_escape_string($id)."'
+                AND `field` = 'address'
+                ORDER BY `date` ASC"
+            );
         }
         
         public function get_timeline($id)
@@ -164,6 +191,38 @@
                 `user` = '".mysql_real_escape_string($id)."' 
                 ORDER BY `date` ASC"
             );
+        }
+        
+        public function search($what)
+        {
+            $result = DB::query(
+                "SELECT `id`, `full_name`, `profile` FROM `{$this->table_name}` WHERE
+                `full_name` LIKE '%".mysql_real_escape_string($what)."%'
+                LIMIT 5", false
+            );
+            
+            if (!$result)
+            {
+                return false;
+            }
+            
+            $name_list = array();
+            while ($person = mysql_fetch_array($result))
+            {
+                $name_list[$person['id']] = array(
+                    'name' => $person['full_name'],
+                    'img' => ($person['profile'] ? content($person['profile']) : url('img/pdef.png'))
+                );
+            }
+            
+            return empty($name_list) ? false : $name_list;
+        }
+        
+        public function get_range($i, $j, $sort)
+        {
+        	return DB::query("SELECT * FROM `{$this->table_name}`
+        		ORDER BY `$sort` LIMIT $i, $j"
+        	);	
         }
         
         private function initialize($db_data)

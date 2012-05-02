@@ -44,7 +44,7 @@ a {
     background-color: rgba(200, 0, 0, 0.2);
 }
 
-input[type="text"], input[type="password"]
+input[type="text"], input[type="password"], input[type="email"]
 {
     border-radius: 10px;
     border: 0px;
@@ -66,6 +66,44 @@ input[type="text"], input[type="password"]
 #toolbar #searchbox input
 {
     width: 180px;
+}
+
+#searchresult
+{
+    position: relative;
+    background-color: #E55000;
+    width: 200px; left: -5px; top: 5px;
+    border-top: none;
+}
+
+#searchresult span
+{
+    display: block;
+    background: -moz-linear-gradient(top, #ffc900, #ff8700);
+    background: -webkit-linear-gradient(top, #ffc900, #ff8700);
+    background: -o-linear-gradient(top, #ffc900, #ff8700);
+    background: -ms-linear-gradient(top, #ffc900, #ff8700);
+}
+
+#searchresult a
+{
+    display: block;
+    height: 40px;
+    color: white;
+    margin: 3px;
+    padding: 2px;
+}
+
+#searchresult a:hover
+{
+    background-color: #FFA000;
+}
+
+#searchresult a > img
+{
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
 }
 
 #toolbar nav 
@@ -285,19 +323,19 @@ footer a:hover
     font-size: 20px;
 }
 
-.profile_edit
+.profile
 {
     text-align: left;
 }
 
-.profile_edit .row
+.profile .row
 {
     position: relative;
     margin-bottom: 20px;
     padding: 5px 0px 5px 160px;
 }
 
-.profile_edit .row > .title
+.profile .row > .title  
 {
     position: absolute;
     left: 0px; top: 0px; bottom: 0px;
@@ -309,6 +347,12 @@ footer a:hover
     font-size: 18px;
     text-shadow: 1px 1px 2px #333;
     color: white;
+}
+
+.profile .row > .value
+{
+    font-size: 18px;
+    padding-top: 4px;
 }
 
 #upload .preview
@@ -330,7 +374,7 @@ footer a:hover
     margin-right: auto;
 }
 
-.profile_edit input[type="text"]
+.profile input[type="text"], .profile input[type="email"]
 {
     margin: 3px auto 3px auto;
     width: 330px;
@@ -343,6 +387,11 @@ footer a:hover
     height: 200px;
 }
 
+#trail
+{
+    width: 500px;
+    height: 350px;
+}
 
 #timeline .year
 {
@@ -398,6 +447,17 @@ footer a:hover
 #timeline .event
 {
     margin: 5px;
+    min-height: 70px;
+}
+
+#timeline .event a
+{
+    font-weight: bold;
+}
+
+#timeline .event > .value
+{
+    color: darkblue;
 }
 
 #timeline .event > .time
@@ -411,5 +471,35 @@ footer a:hover
 #facebook_import, #google_import
 {
     cursor: pointer;
+}
+
+#statistics
+{
+    background-color: lightblue;
+    padding: 40px 5px 5px 5px;
+}
+
+.stat
+{
+    width: 100%;
+    border-spacing: 0px;
+}
+
+.stat input[type=text]
+{
+    border-radius: 0px;
+    width: 192px;
+    margin: 0px;
+    padding: 4px
+}
+
+.stat td, .stat th
+{
+    padding: 0px; margin: 0px;
+}
+
+.stat td
+{
+    border: 1px solid gray;
 }
 

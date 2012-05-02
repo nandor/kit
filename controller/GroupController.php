@@ -7,11 +7,13 @@
         public function __construct()
         {
             parent::__construct();
+            $this->user = Model::load('UserModel');
         }
         
         public function display_group($id)
         {
             $this->scripts = array(
+                url('script/searchbox.js'),
                 url('script/jquery.js')
             );
             

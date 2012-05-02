@@ -2,7 +2,6 @@
 // Licensing information can be found in the LICENSE file
 // (c) 2012 licj11c. All rights reserved.
 
-var site_url = "http://localhost/kit/";
 var file_size = 2 * 1024 * 1024;        // Max uploaded file size
 var map, geocoder;
 
@@ -64,14 +63,20 @@ function init_facebook()
     function fb_import_data()
     {
         FB.api('/me', function(response) {
+            console.log(response);
             if (response.name)
             {
-                $('input[name="fullname"]').val(response.name);
+                $('input[name="full_name"]').val(response.name);
             }
             
             if (response.location)
             {
                 $('input[name="address"]').val(response.location.name);
+            }
+            
+            if (response.email)
+            {
+                $('input[name="email"]').val(response.email);
             }
         });
     }
@@ -221,8 +226,7 @@ function init_map()
             if (status == google.maps.GeocoderStatus.OK) 
             {
                 map.setCenter(results[0].geometry.location);
-                console.log(results[0].geometry.location);
-                
+ 
                 if (marker)
                 {
                     marker.setMap(null);           

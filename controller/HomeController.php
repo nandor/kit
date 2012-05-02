@@ -14,7 +14,8 @@
         {
             $this->scripts = array(
                 url('script/jquery.js'), 
-                url('script/main.js')
+                url('script/main.js'),
+                url('script/searchbox.js')
             );
             
             $this->render_view('head');

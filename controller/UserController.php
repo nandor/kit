@@ -21,6 +21,7 @@
             $this->scripts = array(
                 url('script/jquery.js'), 
                 url('script/user.js'),
+                url('script/searchbox.js'),
                 'https://maps.googleapis.com/maps/api/js?sensor=false',
                 'https://apis.google.com/js/client.js?onload=OnLoadCallback'
             );
@@ -40,6 +41,14 @@
             }
             
             $this->user_data = $this->user->get_by_id($id);
+            $this->user_trail = $this->user->get_trail($id);
+            
+            $this->scripts = array(
+                url('script/jquery.js'), 
+                url('script/profile.js'),
+                url('script/searchbox.js'),
+                'https://maps.googleapis.com/maps/api/js?sensor=false'
+            );
             
             $this->render_view('head');
             $this->render_view('profile_view');
@@ -51,15 +60,21 @@
         function save()
         {
             $new_data = array();
+            $user_data = $this->user->get_data();
+            $fields = array('address', 'email', 'full_name');
             
-            if (isset($_POST['address']) && $_POST['address'] != $this->user->address)
+            foreach ($fields as $field)
             {
-                $new_data['address'] = $_POST['address'];
+                if (isset($_POST[$field]) && $_POST[$field] != '' &&
+                    $_POST[$field] != $user_data[$field])
+                {
+                    $new_data[$field] = $_POST[$field];
+                }
             }
             
             $this->user->update($new_data);
             $this->message('Profile changed successfuly!');
-            $this->redirect('');
+            $this->redirect('user/edit');
         }
         
         /**

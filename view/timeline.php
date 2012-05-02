@@ -70,7 +70,17 @@
                         }
                         case 'address':
                         {
-                            print("$who changed ".($self ? "your" : "his")." address to {$event['value']}.");
+                            print("$who changed ".($self ? "your" : "his")." address to <span class = 'value'>{$event['value']}</span>.");
+                            break;
+                        }
+                        case 'email':
+                        {
+                            print("$who changed ".($self ? "your" : " his")." email address to <span class = 'value'>{$event['value']}</span>.");
+                            break;
+                        }
+                        case 'full_name':
+                        {
+                            print("$who changed ".($self ? "your" : "his")." name to <span class = 'value'>{$event['value']}</span>.");
                             break;
                         }
                     }

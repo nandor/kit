@@ -46,9 +46,14 @@
 
         private function display($users, $events)
         {   
-            if (!$events || !$events[0])
+            if (!$events)
             {
                 throw new Exception("User / Group not found!");
+            }
+            
+            if (!isset($events[0]))
+            {
+                throw new Exception("No timeline data!");
             }
 
             usort($events, function ($a, $b)
@@ -60,6 +65,7 @@
             $this->users = $users;
             
             $this->scripts = array(
+                url('script/searchbox.js'),
                 url('script/jquery.js'),
                 url('script/timeline.js')
             );

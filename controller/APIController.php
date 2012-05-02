@@ -70,6 +70,23 @@
                 "message" => $message
             ));
         }
+        
+        public function search($what = null)
+        {
+            if ($what == null)
+            {
+                if (!isset($_POST['what']))
+                {
+                    throw new Exception("Missing query string!");
+                }
+                $what = $_POST['what'];
+            }
+            $response = array();
+     
+            $response['people'] = $this->user->search ($what);
+            
+            $this->json_response($response);
+        }
     };
 
 ?>

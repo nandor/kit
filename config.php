@@ -32,7 +32,7 @@
             'app_id'        => '277561872338820',
             'channel_file'  => 'http://localhost/kit/fb_channel.html',
             'secret'        => 'b8aba3a9a216204a4df4a03c089f7876',
-            'scope'         => 'user_about_me, user_birthday, user_education_history, user_hometown, user_location, user_work_history'
+            'scope'         => 'user_about_me, user_birthday, user_education_history, user_hometown, user_location, user_work_history, email'
         ),    
         
         // Google API stuff

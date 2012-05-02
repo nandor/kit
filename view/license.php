@@ -39,7 +39,10 @@
                 </p>
                 
                 <p>
-                    You can find more information <a href = "http://www.opensource.org/licenses/bsd-license.php"> here </a>.
+                    You can find more information about the BSD License <a href = "http://www.opensource.org/licenses/bsd-license.php"> here </a>.
+                </p>
+                <p>
+                    The source code of the site is available on github: <a href = "https://github.com/nandor/kit">https://github.com/nandor/kit</a>.
                 </p>
             </div>
             <? $this->render_view('footer'); ?>

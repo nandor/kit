@@ -12,7 +12,7 @@
             <div id = "sidebar">
                 <? $this->render_view('profile_short'); ?>       
             </div> 
-            <div id = "content" class = 'profile_edit'>
+            <div id = "content" class = 'profile'>
                 <? $this->render_view('messages'); ?>
                 <div class = 'row'>
                     <div class = 'title'>
@@ -35,7 +35,15 @@
                             Full Name
                         </div>
                         <div id = "full_name">
-                            <input type = "text" name = "fullname" placeholder = "Full Name"/>
+                            <input type = "text" name = "full_name" placeholder = "Full Name"/>
+                        </div>
+                    </div>
+                    <div class = 'row'>
+                        <div class = 'title'>
+                            Email Address
+                        </div>
+                        <div id = "email">
+                            <input type = "email" name = "email" placeholder = "Email Address"/>
                         </div>
                     </div>
                     <div class = 'row'>
@@ -63,6 +71,14 @@
                         <div id = "workplace">
                             <input type = "text" name = "workplace" placeholder = "Company/Institution name"/>
                             <input type = "text" name = "job" placeholder = "Job"/>
+                        </div>
+                    </div>
+                    <div class = 'row'>
+                        <div class = 'title'>
+                            Interests
+                        </div>
+                        <div id = "workplace">
+                            <input type = "text" name = "hobby" placeholder = "Hobbies"/>
                         </div>
                     </div>
                     <div class = 'row'>

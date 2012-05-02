@@ -40,19 +40,19 @@
         $router->pattern('/timeline/group', 'TimelineController::group');
         $router->pattern('/timeline/group/$id', 'TimelineController::group');
         
+        // Statistics
+        $router->pattern('/statistics/', 'StatisticsController::index');
+        
         // Groups
         $router->pattern('/group/$id', 'GroupController::display_group');
         
         // REST API
         $router->pattern('/api/user/$id', 'APIController::get_user');
+        $router->pattern('/api/search/', 'APIController::search');
+        $router->pattern('/api/search/$what', 'APIController::search');
         
         // Facebook channel file
         $router->pattern('/fb_channel.html', 'HomeController::fb_channel');
-        
-        // CV
-        $router->pattern('/cv/view', 'CVController::view');
-        $router->pattern('/cv/save', 'CVController::save');
-        $router->pattern('/cv/export', 'CVController::export');
         
         // Other pages
         $router->pattern('/about', 'HomeController::about');

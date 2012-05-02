@@ -22,7 +22,8 @@
             <img src = "<?=url('img/pdef.png');?>" width = "120" height = "120" />
         <? endif; ?>
         
-        <a href="<?=url('group/'.$this->user->group);?>">Group</a>
+        <a href="<?=url("group/{$this->user->group}");?>">Group</a><br />
+        <a href="<?=url("profile/{$this->user->id}");?>">Public profile</a><br />
        
         <?= $this->user->name; ?><br />
         <?= date("F j, o", $this->user->time_registered); ?>
