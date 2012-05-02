@@ -1,6 +1,4 @@
-<?php
-    include ('lib/facebook.php');
-    
+<?php    
     /**
         User controller
     */
