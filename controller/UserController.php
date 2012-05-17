@@ -17,9 +17,8 @@
         {
             global $cfg;
             $this->scripts = array(
-                url('script/jquery.js'), 
                 url('script/user.js'),
-                url('script/searchbox.js'),
+                url('script/upload.js'),
                 'https://maps.googleapis.com/maps/api/js?sensor=false',
                 'https://apis.google.com/js/client.js?onload=OnLoadCallback'
             );
@@ -39,12 +38,16 @@
             }
             
             $this->user_data = $this->user->get_by_id($id);
+            
+            if ($this->user_data['visible'] != 1)
+            {
+            	throw new Exception ("This user's profile is private!");
+			}
+            
             $this->user_trail = $this->user->get_trail($id);
             
             $this->scripts = array(
-                url('script/jquery.js'), 
                 url('script/profile.js'),
-                url('script/searchbox.js'),
                 'https://maps.googleapis.com/maps/api/js?sensor=false'
             );
             
@@ -59,7 +62,13 @@
         {
             $new_data = array();
             $user_data = $this->user->get_data();
-            $fields = array('address', 'email', 'full_name');
+            $fields = array('address', 'email', 'full_name', 'visible', 'workplace', 'job', 'hobby', 'birthday');
+            
+            if (isset($_POST['birthday']) && $_POST['birthday'] != '' && 
+            	!preg_match('/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}/', $_POST['birthday']))
+        	{
+        		throw new Exception("Invalid birthday format!");
+        	}
             
             foreach ($fields as $field)
             {

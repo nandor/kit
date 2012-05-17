@@ -8,19 +8,21 @@
         {
             parent::__construct();
             $this->user = Model::load('UserModel');
-            $this->perPage = 25;
+            $this->perPage = 1;
+           
         }
         
-        public function index()
+        public function search()
         {
-            $this->scripts = array(           
-                url('script/jquery.js'),    
-                url('script/statistics.js')
+            global $cfg;
+            
+            $this->scripts = array(        
+                url('script/search.js')
             );
             
-       		$this->data = $this->user->get_range(0, $this->perPage, 'full_name');
+       		$this->data = $this->user->get_range(0, $cfg['per_page'], 'full_name');
             $this->render_view('head');
-            $this->render_view('statistics');
+            $this->render_view('search');
         }
     };
     

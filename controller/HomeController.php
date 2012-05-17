@@ -13,14 +13,18 @@
         public function index()
         {
             $this->scripts = array(
-                url('script/jquery.js'), 
-                url('script/main.js'),
-                url('script/searchbox.js')
+                url('script/main.js')
             );
             
             $this->render_view('head');
             $this->render_view('index');
         }
+        
+        public function credits()
+        {
+            $this->render_view('head');
+            $this->render_view('credits');
+        }     
         
         public function license()
         {

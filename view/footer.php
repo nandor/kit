@@ -1,6 +1,5 @@
 <footer>
     <p>
-        <a href = "<?=url('about');?>">About</a> |
         <a href = "<?=url('credits');?>">Credits</a> |
         <a href = "<?=url('help');?>">Help</a> |
         <a rel = "license" href = "<?=url('license');?>">License</a>

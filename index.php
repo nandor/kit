@@ -15,7 +15,7 @@
     include ('sys/router.php');
     
     try
-    {
+    {        
         $router = new Router();
         
         // Homepage
@@ -41,21 +41,25 @@
         $router->pattern('/timeline/group/$id', 'TimelineController::group');
         
         // Statistics
-        $router->pattern('/statistics/', 'StatisticsController::index');
+        $router->pattern('/search/', 'StatisticsController::search');
+        $router->pattern('/filter/', 'APIController::filter');
         
         // Groups
-        $router->pattern('/group/$id', 'GroupController::display_group');
+        $router->pattern('/group/$id', 'GroupController::display');
+		$router->pattern('/group/edit/$id', 'GroupController::edit');
+		$router->pattern('/group/save', 'GroupController::save');
         
         // REST API
         $router->pattern('/api/user/$id', 'APIController::get_user');
         $router->pattern('/api/search/', 'APIController::search');
         $router->pattern('/api/search/$what', 'APIController::search');
+        $router->pattern('/api/filter/', 'APIController::filter');
         
         // Facebook channel file
         $router->pattern('/fb_channel.html', 'HomeController::fb_channel');
         
         // Other pages
-        $router->pattern('/about', 'HomeController::about');
+        $router->pattern('/credits', 'HomeController::credits');
         $router->pattern('/license', 'HomeController::license');
         $router->pattern('/help', 'HomeController::help');
         

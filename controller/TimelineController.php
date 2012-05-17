@@ -21,7 +21,14 @@
                 $id = $this->user->id;
             }
             
-            $this->display(array($id => $this->user->get_by_id($id)), $this->user->get_timeline($id));
+            $user = $this->user->get_by_id($id);
+            
+            if ($user['visible'] != 1 && $id != $this->user->id)
+            {
+            	throw new Exception ("This user's profile is private!");
+            }
+            
+            $this->display(array($id => $user), $this->user->get_timeline($id));
         }
         
         public function group($id = null)
@@ -38,6 +45,11 @@
             
             foreach ($users as $user)
             {
+            	if ($user['visible'] == 0)
+            	{
+            		continue;
+            	}
+            	
                 $data = array_merge($data, $this->user->get_timeline($user['id']));
                 $users_by_id[$user['id']] = $user;
             }
@@ -65,8 +77,6 @@
             $this->users = $users;
             
             $this->scripts = array(
-                url('script/searchbox.js'),
-                url('script/jquery.js'),
                 url('script/timeline.js')
             );
                 

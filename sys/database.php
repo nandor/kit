@@ -134,6 +134,11 @@
             }
         }
         
+        private static function next($what)
+        {
+            return mysql_fetch_array($what, MYSQL_ASSOC);
+        }
+        
         private static $inst = null;     
         public static function __callStatic($method, $args)
         {

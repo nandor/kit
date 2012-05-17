@@ -1,0 +1,99 @@
+diff --git a/controller/GroupController.php b/controller/GroupController.php
+index dfaedd2..4103312 100644
+--- a/controller/GroupController.php
++++ b/controller/GroupController.php
+@@ -9,17 +9,28 @@
+             parent::__construct();
+             $this->user = Model::load('UserModel');
+         }
+-        
+-        public function display_group($id)
++		
++        public function display($id)
+         {
+             $this->scripts = array(
+-                url('script/searchbox.js'),
+                 url('script/jquery.js')
+             );
+             
++			
++			
+             $this->render_view('head');
+             $this->render_view('group_view');
+-        }    
++        }
++		
++		public function edit($id)
++		{
++			$this->scripts = array(
++				url('script/jquery.js')
++			);
++			
++			$this->render_view('head');
++			$this->render_view('group_edit');
++		}
+     };
+ 
+ ?>
+diff --git a/index.php b/index.php
+index c4ec257..dc3f1a8 100644
+--- a/index.php
++++ b/index.php
+@@ -44,7 +44,8 @@
+         $router->pattern('/statistics/', 'StatisticsController::index');
+         
+         // Groups
+-        $router->pattern('/group/$id', 'GroupController::display_group');
++        $router->pattern('/group/$id', 'GroupController::display');
++		$router->pattern('/group/edit/$id', 'GroupController::edit');
+         
+         // REST API
+         $router->pattern('/api/user/$id', 'APIController::get_user');
+diff --git a/model/GroupModel.php b/model/GroupModel.php
+index 78721ec..649cad2 100644
+--- a/model/GroupModel.php
++++ b/model/GroupModel.php
+@@ -20,6 +20,6 @@
+             ));
+             
+             return $result ? $result : array();
+-        }    
++        }
+     };
+ ?>
+diff --git a/view/group_view.php b/view/group_view.php
+index 2d0749f..356dc91 100644
+--- a/view/group_view.php
++++ b/view/group_view.php
+@@ -1,9 +1,28 @@
+         <div id = "container">
+             <div id = "sidebar">
+-                short description of the group
++                <? $this->render_view('group_short'); ?>
+             </div> 
+-            <div id = "content">
+-                Full description of the group
++           <div id = "content" class = "profile">
++					<div class = 'row'>
++                        <div class = 'title'>
++                            Group
++                        </div>
++                    </div>
++					<div class = 'row'>
++                        <div class = 'title'>
++                            Promotion
++                        </div>
++                    </div>
++					<div class = 'row'>
++                        <div class = 'title'>
++                            Group picture
++                        </div>
++                    </div>
++					<div class = 'row'>
++						<div class = 'title'>
++							Members
++						</div>
++					</div>
+             </div>
+             <? $this->render_view('footer'); ?>
+         </div>

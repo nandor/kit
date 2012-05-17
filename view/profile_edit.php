@@ -18,7 +18,7 @@
                     <div class = 'title'>
                         Profile picture
                     </div>
-                    <div id = 'upload'>   
+                    <div id = 'upload' data-url="<?=url('user/upload/');?>">   
                         <div class = "drop_normal">
                             <img class = "preview" width = "120" height = "120"/>
                             <div class = "text">Drag here to upload</div>
@@ -57,11 +57,21 @@
                     </div>
                     <div class = 'row'>
                         <div class = 'title'>
+                            Birthday
+                        </div>
+                        <div id = "address">
+                            <input type = "text" name = "birthday" placeholder = "yyyy-mm-dd"/>
+                        </div>
+                    </div>
+                    <div class = 'row'>
+                        <div class = 'title'>
                             Education
                         </div>
                         <div id = "university">
                             <input type = "text" name = "university" placeholder = "Institution"/>
+                            <img src = "<?=url('img/plus.png');?>" /><br />
                             <input type = "text" name = "group" placeholder = "Class / Group"/>
+                            <img src = "<?=url('img/plus.png');?>" /><br /><br />
                         </div>
                     </div>
                     <div class = 'row'>
@@ -85,9 +95,9 @@
                         <div class = 'title'>
                             Visibility
                         </div>
-                        <select name = "visibility">
-                            <option value = "public">Public</option>
-                            <option value = "private">Private</option>
+                        <select name = "visible">
+                            <option value = "1">Public</option>
+                            <option value = "0">Private</option>
                         </select>
                     </div>
                     <div class = 'row'>

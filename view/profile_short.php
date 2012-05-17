@@ -22,10 +22,10 @@
             <img src = "<?=url('img/pdef.png');?>" width = "120" height = "120" />
         <? endif; ?>
         
-        <a href="<?=url("group/{$this->user->group}");?>">Group</a><br />
-        <a href="<?=url("profile/{$this->user->id}");?>">Public profile</a><br />
-       
-        <?= $this->user->name; ?><br />
-        <?= date("F j, o", $this->user->time_registered); ?>
+        <div><span class = 'title'>Full name</span> <?=$this->user->full_name;?> </div>
+        <div><span class = 'title'>Username</span> <?= $this->user->name; ?></div>
+        <div><span class = 'title'>Date joined</span> <?= date("F j, o", $this->user->time_registered); ?></div>
+        <div><a href="<?=url("profile/{$this->user->id}");?>">Public profile</a></div>    
+        <div><a href="<?=url("group/{$this->user->group}");?>">Group profile</a></div> 
     </div>
 <? endif; ?>

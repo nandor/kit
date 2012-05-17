@@ -6,23 +6,24 @@
             <?php
                 $last_year = 0;
                 $last_month = 0;
+                $last_year = 0;
                 
                 $months = array(
                     'None', 'January', 'February', 'March', 
                     'April', 'May','June', 'July', 'August', 
                     'September', 'October', 'November', 'December'
                 );
-                
+               
                 foreach ($this->events as $event)
                 {
-                    $year = $month = 0;
-                    sscanf($event['date'], "%d-%d-%*d", $year, $month); 
+                    $year = $month = $day = 0;
+                    sscanf($event['date'], "%d-%d-%d", $year, $month, $day); 
                     
                     if ($last_year != $year)
                     {
                         if ($last_year != 0)
                         {
-                            echo "</div></div></div></div>";
+                            echo "</div></div></div></div></div>";
                         }
                         
                         ?>
@@ -33,13 +34,14 @@
                         
                         $last_year = $year;
                         $last_month = 0;
+                        $last_day = 0;
                     }
                     
                     if ($last_month != $month)
                     {
                         if ($last_month != 0)
                         {
-                            echo "</div></div>";
+                            echo "</div></div></div>";
                         }
                         
                         ?>
@@ -49,18 +51,28 @@
                         <?
                         
                         $last_month = $month;
+                        $last_day  = 0;
+                    }
+                    
+                    if ($last_day != $day)
+                    {
+                    	if ($last_day != 0)
+                    	{
+							echo "</div>";
+						}
+						$last_day = $day;
+						
+						?><div class = 'event'>
+		                    <div class = 'time'>
+		                        On <?=date("jS", strtotime($event['date']));?> of <?=$months[$month];?>
+		                    </div>
+	                    <?
                     }
                     
                     $user = $this->users[$event['user']]; 
                     $self = $user['id'] == $this->user->id;
                     $who = "<a href = \"".url("profile/{$user['id']}")."\">".($self ? 'You' : $user['name'])."</a>";
-                                   
-                    ?><div class = 'event'>
-                        <div class = 'time'>
-                            On <?=date("jS", strtotime($event['date']));?> of <?=$months[$month];?>
-                        </div>
-                    <?
-                    
+                    ?><p><?                 
                     switch ($event['field'])
                     {
                         case 'profile':
@@ -85,11 +97,11 @@
                         }
                     }
                     
-                    ?></div><?
+                    ?></p><?
                 }
                 
             ?>  
-                </div></div></div></div>
+                </div></div></div></div></div>
             </div>
             <? $this->render_view('footer'); ?>
         </div>

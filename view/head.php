@@ -5,6 +5,8 @@
         
         <link rel = "stylesheet" type = "text/css" href = "<?=url('style/main.css');?>" />
         
+        <script type="text/javascript" src="<?=url('script/jquery.js');?>"></script>
+        <script type="text/javascript" src="<?=url('script/searchbox.js');?>"></script>
         <?php
             if ($this->scripts)
             {
@@ -33,15 +35,15 @@
                         
                         </div>
                         <span>Universities</span>
-                        <div id = "groupresult">
+                        <div id = "univresult">
                         
                         </div>
+                        <a class = 'advsearch' href ="<?=url('search');?>">Advanced search</a>
                     </div>
                 </div>
                 <script type = "text/javascript" src = "<?=url('script/searchbox.js');?>"></script>
                 <nav>
                     <a href = "<?=url('');?>"> Home </a>
-                    <a href = "<?=url('statistics');?>"> Search </a>
                     <? if ($this->user && $this->user->logged_in()): ?>    
                         <a href = "<?=url('user/edit');?>">Profile</a>
                         <a href = "<?=url('timeline');?>">Timeline</a>

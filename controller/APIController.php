@@ -8,6 +8,7 @@
         {
             parent::__construct();
             $this->user = Model::load('UserModel');
+            $this->group = Model::load('GroupModel');
         }
         
         /**
@@ -71,21 +72,111 @@
             ));
         }
         
+        /**
+         * Returns names, pictures and ids of users whose full name
+         * contain the search string
+         * 
+         * @param $what Search String
+         */
         public function search($what = null)
         {
             if ($what == null)
             {
                 if (!isset($_POST['what']))
                 {
-                    throw new Exception("Missing query string!");
+                    $this->json_error("Missing query string!");
+                    return;
                 }
+                
                 $what = $_POST['what'];
             }
             $response = array();
      
             $response['people'] = $this->user->search ($what);
+            $response['groups'] = $this->group->search ($what);
             
             $this->json_response($response);
+        }
+        
+        /**
+         * Returns user data, filtered by criteria
+         */
+        public function filter()
+        {
+            global $cfg;
+            
+            if (!isset($_POST['filter']))
+            {
+                $this->json_error("Missing filters!");
+                return;
+            }
+            
+            $filter = json_decode($_POST['filter'], true);
+            $response = array();
+            
+            $name = isset($filter['name'], $filter['name']['val']) ? "%".DB::escape($filter['name']['val'])."%" : '%';
+            $addr = isset($filter['addr'], $filter['addr']['val']) ? "%".DB::escape($filter['addr']['val'])."%" : '%';
+            $edu  = isset($filter['edu' ], $filter['edu' ]['val']) ? "%".DB::escape($filter['edu' ]['val'])."%" : '%';
+            $work = isset($filter['work'], $filter['addr']['val']) ? "%".DB::escape($filter['work']['val'])."%" : '%';
+            
+            $query = "SELECT * FROM `users` WHERE ".
+                        "`full_name` LIKE '$name' AND ".
+                        "`address` LIKE '$addr' AND ".
+                        "`university_name` LIKE '$edu' AND ".
+                        "`workplace` LIKE '$work' ";
+            
+            if (isset($filter['column'], $filter[$filter['column']]['dir']))
+            {
+                $column = array(
+                    'name' => 'full_name',
+                    'addr' => 'address',
+                    'edu' => 'university_name',
+                    'work' => 'workplace'
+                );
+                
+                $query .= " ORDER BY {$column[$filter['column']]} ".($filter[$filter['column']]['dir'] ? "DESC" : "ASC");
+            }
+            else
+            {
+            	$query .= " ORDER BY `full_name` ASC";
+            }
+            
+            if (!isset($filter['page']))
+            {
+                $this->json_error("Invalid page!");
+                return;
+            }
+            
+            $query .= " LIMIT ".(intval($filter['page']) * $cfg['per_page']).", ".($cfg['per_page'] + 1);
+            $result = DB::query($query, false);
+            
+            if (!$result)
+            {
+            	$this->json_error("Query failed!");
+            	return;
+			}
+			
+			
+			$users = array();
+			$count = 0;
+			
+			while ($count < $cfg['per_page'] && ($row = DB::next($result)))
+			{
+				$users[] = array(
+					'id' => $row['id'],
+					'name' => $row['full_name'],
+					'addr' => $row['address'],
+					'work' => $row['workplace'],
+					'univ' => $row['university_name']
+				);
+				
+				$count++;
+			}
+			
+        	$this->json_response(array(
+        		'users' => $users,
+        		'more' => (DB::next($result) != false)
+    		));
         }
     };
 

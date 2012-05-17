@@ -6,8 +6,10 @@
                 <div style = "visibility:hidden" itemprop = "url"><?=url("profile/{$this->user->id}");?></div>
                 <div class = 'row'>
                     <div class = 'value'>
+                    	<a href = "<?=url('timeline/'.$this->user_data['id']);?>">
                         <img width = "130" height = "130" alt = "profile" itemprop = "image" src = "
                             <?=$this->user_data['profile'] ? content($this->user_data['profile']) : url('img/pdef.png');?>" />
+                        </a>
                     </div>
                 </div>
                 <div class = 'row'>
@@ -29,6 +31,30 @@
                 <div class = 'row'>
                     <div class = 'title'> Address </div>
                     <div class = 'value' itemprop = 'address'> <?=$this->user_data['address'];?> </div>
+                </div>
+                <div class = 'row'>
+                    <div class = 'title'> Workplace </div>
+                    <div class = 'value' itemprop = 'address'> <?=$this->user_data['workplace'];?> </div>
+                </div>
+                <div class = 'row'>
+                    <div class = 'title'> Job </div>
+                    <div class = 'value' itemprop = 'address'> <?=$this->user_data['job'];?> </div>
+                </div>
+                <div class = 'row'>
+                    <div class = 'title'> Interests </div>
+                    <div class = 'value' itemprop = 'address'> <?=$this->user_data['hobby'];?> </div>
+                </div>
+                <div class = 'row'>
+                    <div class = 'title'> Group </div>
+                    <div class = 'value'>
+                    	<?php
+                    		if ($this->user_data['group'])
+                    		{
+				            	echo '<a href = "'.url('group/'.$this->user_data['group']).'">';
+				            	echo $this->user_data['group_name'].'</a>';
+			            	}
+		            	?>
+                    </div>
                 </div>
                 <div class = 'row'>
                     <div class = 'title'> Trail </div>

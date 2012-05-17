@@ -40,9 +40,24 @@ $(function()
                     }
                     else
                     {
-                        console.log("A");
                         $("#searchresult > #peopleresult").html(
                             '<div style = "text-align:center">No people named "' + name + '" found!</div>'
+                        );
+                    }
+                    
+                    if (res.data.groups)
+                    {
+                        for (var i in res.data.groups)
+                        {
+                            $("#searchresult > #groupresult").append(
+                                "<a href = '" + site_url + "group/" + i + "'><img src = '" + res.data.groups[i].img + "'/>" + res.data.groups[i].name + "</div>"
+                            );
+                        }
+                    }
+                    else
+                    {
+                        $("#searchresult > #groupresult").html(
+                            '<div style = "text-align:center">No groups named "' + name + '" found!</div>'
                         );
                     }
                     

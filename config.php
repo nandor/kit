@@ -8,7 +8,7 @@
         // The name of the folder where the application is located
         'base_url'      => '/kit',
         'host'          => 'http://localhost',
-        'debug'         => true,
+        'debug'         => false,
         'error_page'    => 'view/error.php',
         
         // Directories where controllers, views and models are located
@@ -32,7 +32,7 @@
             'app_id'        => '277561872338820',
             'channel_file'  => 'http://localhost/kit/fb_channel.html',
             'secret'        => 'b8aba3a9a216204a4df4a03c089f7876',
-            'scope'         => 'user_about_me, user_birthday, user_education_history, user_hometown, user_location, user_work_history, email'
+            'scope'         => 'user_about_me, user_birthday, user_education_history, user_hometown, user_location, user_work_history, email, user_interests'
         ),    
         
         // Google API stuff
@@ -41,6 +41,8 @@
             'scopes'        => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email'
         ),          
         
-        'cache_expire'      => 60 * 60 * 24
+        'cache_expire'      => 60 * 60 * 24,
+        
+        'per_page'          => 15
     );
 ?>

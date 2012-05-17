@@ -82,7 +82,7 @@
             DB::update($this->table_name, $this->user_data['id'], array(
                 $name => $value
             ));
-            
+            	
             if ($timeline_add)
             {
                 DB::insert('timeline', array(
@@ -219,10 +219,18 @@
         }
         
         public function get_range($i, $j, $sort)
-        {
-        	return DB::query("SELECT * FROM `{$this->table_name}`
-        		ORDER BY `$sort` LIMIT $i, $j"
+        {        	
+            return DB::query("SELECT * FROM `{$this->table_name}`
+        		ORDER BY `$sort` LIMIT $i, $j",
+        		false
         	);	
+        }
+        
+        
+        public function get_count()
+        {
+            $res = DB::query("SELECT COUNT(*) AS count FROM {$this->table_name}");
+            return $res['count'];
         }
         
         private function initialize($db_data)

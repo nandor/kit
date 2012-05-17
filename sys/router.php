@@ -126,7 +126,7 @@
                 {
                     if ($key[0] == '$')
                     {
-                        $params[substr($key[0], 1)] = $token;
+                        $params[substr($key, 1)] = $token;
                         $node = $node['children'][$key];
                         $routeFound = true;
                         break;                    
