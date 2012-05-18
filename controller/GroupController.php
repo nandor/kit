@@ -13,12 +13,17 @@
 		
         public function display($id)
         {
+			global $cfg;
+			
             if (!preg_match('/^[0-9]+$/', $id))
             {
                 throw new Exception("Invalid group ID");
             }
             
             $this->scripts = array();
+            $this->variables = array(
+            	"site_url" => "\"{$cfg['host']}{$cfg['base_url']}\"",
+            );
             
 			$this->users = $this->group->get_users($id);	
 			$this->group_data = $this->group->get_data($id);
@@ -34,7 +39,7 @@
         {
             global $cfg;
             
-            if (!$this->user->logged_in() || $this->user->group)
+            if (!$this->user->logged_in() || !$this->user->group)
             {
                 throw new Exception("Access denied!");
             }
@@ -70,14 +75,23 @@
             fclose($output);
             
             // Update the profile image
-            $this->user->profile = $file_name;
+            $this->group->update($this->user->group, array(
+            	'picture' => $file_name
+			));
         }
+        
 		public function edit($id)
 		{
+			global $cfg;
+			
 			$this->scripts = array(
                 url('script/upload.js')
             );
 			
+            $this->variables = array(
+            	"site_url" => "\"{$cfg['host']}{$cfg['base_url']}\"",
+            );
+            
 			$this->group_data = $this->group->get_data($id);
 			$this->render_view('head');
 			$this->render_view('group_edit');
@@ -85,22 +99,79 @@
 		
 		function save()
         {
-            $new_data = array();
-            $group_data = $this->group->get_data();
-            $fields = array('name', 'promotion', 'about');
-            
-            foreach ($fields as $field)
+            if (!$this->user->logged_in() || !$this->user->group)
             {
-                if (isset($_POST[$field]) && $_POST[$field] != '' &&
-                    $_POST[$field] != $group_data[$field])
-                {
-                    $new_data[$field] = $_POST[$field];
-                }
+                throw new Exception("Access denied!");
             }
             
-            $this->group->update($new_data);
-            $this->message('Group profile changed successfuly!');
-            $this->redirect('/group');
+            $new_data = array();
+            $fields = array(
+				'name' => '/^[a-zA-Z0-9 ]+$/', 
+				'promotion' => '/^[0-9]+$/', 
+				'about' => '/^[a-zA-Z0-9 .!?,;:]+$/', 
+			);
+                        
+            foreach ($fields as $field => $regex)
+            {
+            	if (!isset($_POST[$field]) || $_POST[$field] == '')
+        		{
+        			continue;
+        		}
+        		
+        		if (!isset($fields[$field]) || !preg_match($regex, $_POST[$field]))
+        		{
+        			throw new Exception("Invalid value!");
+        		}
+        		
+                $new_data[$field] = $_POST[$field];
+            }
+            
+            $this->group->update($this->user->id, $new_data);
+            $this->message('Group changed successfuly!');
+        	$this->redirect('group/edit/'.$this->user->group);
+        }
+        
+        public function add_index($univ_id)
+        {
+            $this->scripts = array(
+                url('script/jquery.js'), 
+                url('script/group.js')
+            );
+            
+            $this->university = $univ_id;
+            
+            $this->render_view('head');
+            $this->render_view('group_add');
+        }
+        
+        public function add()
+        {
+            $new_data = array();
+            $fields = array(
+            	'university' => '/^[0-9]+$/',
+				'name' => '/^[a-zA-Z0-9 ]+$/', 
+				'promotion' => '/^[0-9]+$/', 
+				'about' => '/^[a-zA-Z0-9 .!?,;:]+$/', 
+			);
+                        
+            foreach ($fields as $field => $regex)
+            {
+            	if (!isset($_POST[$field]) || $_POST[$field] == '')
+        		{
+        			throw new Exception("All fields must be completed: $field!");
+        		}
+        		
+        		if (!isset($fields[$field]) || !preg_match($regex, $_POST[$field]))
+        		{
+        			throw new Exception("Invalid value!");
+        		}
+        		
+                $new_data[$field] = $_POST[$field];
+            }
+            
+            $this->group->add($new_data);
+            $this->message('Group added successfuly!');
+        	$this->redirect('');
         }
     };
 

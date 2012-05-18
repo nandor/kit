@@ -2,7 +2,6 @@
 // Licensing information can be found in the LICENSE file
 // (c) 2012 licj11c. All rights reserved.
 
-var file_size = 2 * 1024 * 1024;        // Max uploaded file size
 var map, geocoder;
 
 $(document).ready(function()
@@ -84,15 +83,13 @@ function init_facebook()
             	$('input[name="workplace"]').val(work.employer.name);
             	$('input[name="job"]').val(work.position.name);
             }
-            
-            console.log(response);
         });
     }
 }
 
 function init_google()
 {
-    gapi.client.load('plus', 'v1', function() {    
+    gapi.client.load('oauth2', 'v2', function() {    
         gapi.client.setApiKey('AIzaSyCrOywnmHqUvUjDsd2f8V4KA5K53QIHHG8');
 
         $("#google_import").click(function()
@@ -100,10 +97,37 @@ function init_google()
             gapi.auth.authorize({
                 client_id: google_client_id, 
                 scope: google_scopes, 
-                immediate: false
+                immediate: true
             }, function (response)
-            {
-            	
+            {	
+            	if (response)
+            	{
+          			var request = gapi.client.oauth2.userinfo.get();
+			  		request.execute(function (response)
+			  		{
+						if (response.name)
+						{
+						    $('input[name="full_name"]').val(response.name);
+						}
+						
+						if (response.location)
+						{
+						    $('input[name="address"]').val(response.location.name);
+						}
+						
+						if (response.email)
+						{
+						    $('input[name="email"]').val(response.email);
+						}
+						
+						if (response.work && response.work[0])
+						{
+							work = response.work[0];
+							$('input[name="workplace"]').val(work.employer.name);
+							$('input[name="job"]').val(work.position.name);
+						}
+			  		});
+            	}
             });
         });
     });
@@ -160,7 +184,7 @@ function init_map()
 function init_marker(marker)
 {
     google.maps.event.addListener(marker, 'dragend', function() 
-    {console.log("A");
+    {
         geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) 
         {
             if (status == google.maps.GeocoderStatus.OK && results[1])

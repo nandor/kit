@@ -2,18 +2,19 @@
 // Licensing information can be found in the LICENSE file
 // (c) 2012 licj11c. All rights reserved.
 
-var filter = {
-    "name": {"dir": false, "val": ""},
-    "addr": {"dir": false, "val": ""},
-    "edu": {"dir": false, "val": ""},
-    "work": {"dir": false, "val": ""},
-    "page": 0
-};
-
-var count = 0, waiting = false;
-
 $(function()
 {
+	var filter = {
+		"name": {"dir": false, "val": ""},
+		"addr": {"dir": false, "val": ""},
+		"edu": {"dir": false, "val": ""},
+		"work": {"dir": false, "val": ""},
+		"mail": {"dir": false, "val": ""},
+		"page": 0
+	};
+
+	var count = 0, waiting = false;
+
 	$(".filter .row").each(function()
 	{
 		count++;
@@ -47,62 +48,64 @@ $(function()
         filter['addr'].val = $(".filter input[name='addr']").val();
         filter['edu'].val = $(".filter input[name='edu']").val();
         filter['work'].val = $(".filter input[name='work']").val();
+        filter['mail'].val = $(".filter input[name='mail']").val();
         filter['page'] = 0;
         
-       $(".filter .row").remove();
-       count = 0;
+        $(".filter .row").remove();
+        count = 0;
         get_users();
     });
-});
-
-function get_users()
-{
-	if (waiting)
+    
+	function get_users()
 	{
-		return;
-	}
+		if (waiting)
+		{
+			return;
+		}
 	
-	waiting = true;
-    $.ajax({
-        type: 'POST',
-        url: site_url + "api/filter/", 
-        dataType: 'json',
-        data: {
-            filter: JSON.stringify(filter)
-        },
-        success: function(res)
-        {
-        	waiting = false;
-        	if (!res || !res.data || !res.data.users)   
-            {
-                $(".filter .more").hide();
-            	return;
-            }
-            
-        	for (var i in res.data.users)
-        	{	
-        		var user = res.data.users[i];
-        		
-    			++count;
-        		$(".filter .more").before(
-        			"<tr class = 'row " + ((count & 1) ? "odd" : "even") +"'>" +
-        				"<td><a href='" + site_url + "/profile/" + user.id + "'>" + user.name + "</a></td>" +
-        				"<td>" + user.addr + "</td>" + 
-        				"<td>" + user.univ + "</td>" + 
-        				"<td>" + user.work + "</td>" +
-        			"</tr>"
-    			);
-        	}
-        	
-            if (!res.data.more)
-            {
-                $(".filter .more").hide();
-            }
-            else
-            {
-        		$(".filter .more").show();
-    		}
-        }
-    });
-}
+		waiting = true;
+		$.ajax({
+		    type: 'POST',
+		    url: site_url + "api/filter/", 
+		    dataType: 'json',
+		    data: {
+		        filter: JSON.stringify(filter)
+		    },
+		    success: function(res)
+		    {
+		    	waiting = false;
+		    	if (!res || !res.data || !res.data.users)   
+		        {
+		            $(".filter .more").hide();
+		        	return;
+		        }
+		        
+		    	for (var i in res.data.users)
+		    	{	
+		    		var user = res.data.users[i];
+		    		
+					++count;
+		    		$(".filter .more").before(
+		    			"<tr class = 'row " + ((count & 1) ? "odd" : "even") +"'>" +
+		    				"<td><a href='" + site_url + "/profile/" + user.id + "'>" + user.name + "</a></td>" +
+		    				"<td>" + user.addr + "</td>" + 
+		    				"<td>" + user.univ + "</td>" + 
+		    				"<td>" + user.work + "</td>" +
+		            		"<td><a href = 'mailto:" + user.mail + "'>" + user.mail + "</a></td>" +
+		    			"</tr>"
+					);
+		    	}
+		    	
+		        if (!res.data.more)
+		        {
+		            $(".filter .more").hide();
+		        }
+		        else
+		        {
+		    		$(".filter .more").show();
+				}
+		    }
+		});
+	}
+});
 

@@ -1,4 +1,8 @@
+// This file is part of the licj11c KIT project
+// Licensing information can be found in the LICENSE file
+// (c) 2012 licj11c. All rights reserved.
 
+var file_size = 2 * 1024 * 1024;        // Max uploaded file size
 
 $(function ()
 {

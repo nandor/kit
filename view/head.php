@@ -16,8 +16,16 @@
                 }
             }
         ?>
-        <script type = "text/javascript">
-            var site_url = "<?="{$cfg['host']}{$cfg['base_url']}/";?>";
+    	<script type = "text/javascript">
+		<?php
+            if ($this->variables)
+            {
+                foreach ($this->variables as $key => $value)
+                {
+                    echo "var $key = $value;"; 
+                }
+            }            
+        ?>
         </script>
     </head>
     <body>
@@ -44,6 +52,7 @@
                 <script type = "text/javascript" src = "<?=url('script/searchbox.js');?>"></script>
                 <nav>
                     <a href = "<?=url('');?>"> Home </a>
+                    <a href = "<?=url('univ');?>"> University </a>
                     <? if ($this->user && $this->user->logged_in()): ?>    
                         <a href = "<?=url('user/edit');?>">Profile</a>
                         <a href = "<?=url('timeline');?>">Timeline</a>

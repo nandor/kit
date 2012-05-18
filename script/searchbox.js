@@ -34,7 +34,10 @@ $(function()
                         for (var i in res.data.people)
                         {
                             $("#searchresult > #peopleresult").append(
-                                "<a href = '" + site_url + "profile/" + i + "'><img src = '" + res.data.people[i].img + "'/>" + res.data.people[i].name + "</div>"
+                                "<a href = '" + site_url + "profile/" + i + "'>" + 
+                                	"<img src = '" + res.data.people[i].img + "'/>" + 
+                                	"<div>" + res.data.people[i].name + "</div>" +
+                            	"</div>"
                             );
                         }
                     }
@@ -50,7 +53,10 @@ $(function()
                         for (var i in res.data.groups)
                         {
                             $("#searchresult > #groupresult").append(
-                                "<a href = '" + site_url + "group/" + i + "'><img src = '" + res.data.groups[i].img + "'/>" + res.data.groups[i].name + "</div>"
+                                "<a href = '" + site_url + "group/" + i + "'>" +
+                                	"<img src = '" + res.data.groups[i].img + "'/>" +
+                                	"<div>" + res.data.groups[i].name + "</div>" +
+                            	"</div>"
                             );
                         }
                     }
@@ -58,6 +64,25 @@ $(function()
                     {
                         $("#searchresult > #groupresult").html(
                             '<div style = "text-align:center">No groups named "' + name + '" found!</div>'
+                        );
+                    }
+                    
+                    if (res.data.univs)
+                    {
+                        for (var i in res.data.univs)
+                        {
+                            $("#searchresult > #univresult").append(
+                                "<a href = '" + site_url + "group/" + i + "'>" + 
+                                	"<img src = '" + res.data.univs[i].img + "'/>" +
+                                	"<div>" + res.data.univs[i].name + "</div>" +
+                            	"</div>"
+                            );
+                        }
+                    }
+                    else
+                    {
+                        $("#searchresult > #univresult").html(
+                            '<div style = "text-align:center">No universities named "' + name + '" found!</div>'
                         );
                     }
                     

@@ -104,7 +104,15 @@ input[type="text"], input[type="password"], input[type="email"]
     width: 40px;
     height: 40px;
     vertical-align: middle;
+    float: left;
 }
+
+#searchresult div > a > div
+{
+	float: left;
+	width: 150px;
+}
+
 
 #searchresult .advsearch
 {
@@ -382,7 +390,7 @@ footer a:hover
     top: 0px; left: 0px; right: 0px; bottom: 0px;
 }
 
-#profile > img
+#profile > img, #group > img
 {
     display: block;
     margin-left: auto;
@@ -563,7 +571,7 @@ footer a:hover
 	 cursor: pointer;
 }
 
-#profile .title, #profile a
+#profile .title, #group .title
 {
 	color: white;
 	font-weight: bold;
@@ -589,3 +597,55 @@ textarea[name="about"]
     box-shadow: inset 0px 0px 3px #222;
 }
 
+
+.group_list > div > img
+{
+	vertical-align: middle;
+	width: 35px; height: 35px;
+}
+
+#univ_table_container
+{
+	border: 1px solid #00AAEE;
+    text-align: center;
+}
+
+#univ_table
+{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#univ_table td, th
+{
+    border-bottom: 1px solid #00AAEE;
+    height: 30px;
+}
+
+#univ_table th
+{
+	background-color: #2E90F0
+}
+
+#univ_buttons_container
+{
+	font-size: 14px;
+	font-weight: normal;
+	background-color: #2E90F0;
+	height: 30px;
+}
+
+.odd
+{
+    background-color: #BBEEEE;
+}
+
+.even
+{
+    background-color: lightblue;
+}
+
+#groups_list img
+{
+	vertical-align: middle;
+}

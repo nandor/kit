@@ -18,6 +18,10 @@
                     	<input type = "text" name = "work" placeholder = "Workplace" /> 
                     	<img id = "name_sort" data-filter = "work" src = "<?=url('img/sort_down.png');?>">
                     </th>
+                    <th> 
+                    	<input type = "text" name = "mail" placeholder = "Email" /> 
+                    	<img id = "mail_sort" data-filter = "mail" src = "<?=url('img/sort_down.png');?>">
+                    </th>
                 </tr>
                 <?php
                     $count = 0;
@@ -27,8 +31,9 @@
                 		?><tr class = 'row'>
                 			<td><a href = "<?=url('profile/'.$user['id']);?>"><?=$user['full_name'];?></a></td>
                 			<td><?=$user['address'];?></td>
-                			<td></td>
-                			<td></td>
+                			<td><?=$user['university_name'];?></td>
+                			<td><?=$user['workplace'];?></td>
+                			<td><a href = "mailto:<?=$user['email'];?>"><?=$user['email'];?></a></td>
                 		</tr><?
                 	}
                 	?>

@@ -8,14 +8,28 @@
     {   
         private $conn;
         
+        /**
+        	Connect to the server & select the db
+		*/
         private function __construct()
         {
             global $cfg;
                
             $this->conn = mysql_connect($cfg['db']['host'], $cfg['db']['user'], $cfg['db']['pass']);
-            mysql_select_db($cfg['db']['name'], $this->conn);
+            if (!$this->conn)
+            {
+            	throw new Exception("Cannot connect to database!");
+            }
+            
+            if (!mysql_select_db($cfg['db']['name'], $this->conn))
+            {
+				throw new Exception("Cannot select database!");
+			}
         }
         
+        /**
+        	Close the connection
+    	*/
         public function __destruct()
         {
             mysql_close($this->conn);
@@ -26,6 +40,9 @@
             return mysql_real_escape_string($data);
         }
         
+        /**
+        	Execute a query & return the rows
+		*/
         private function query($query, $fetch = true)
         {
             $result = mysql_query($query);

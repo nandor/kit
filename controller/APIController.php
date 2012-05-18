@@ -9,6 +9,7 @@
             parent::__construct();
             $this->user = Model::load('UserModel');
             $this->group = Model::load('GroupModel');
+            $this->univ  = Model::load('UnivModel');
         }
         
         /**
@@ -90,10 +91,12 @@
                 
                 $what = $_POST['what'];
             }
+            
             $response = array();
      
             $response['people'] = $this->user->search ($what);
             $response['groups'] = $this->group->search ($what);
+            $response['univs'] = $this->univ->search ($what);
             
             $this->json_response($response);
         }
@@ -118,12 +121,15 @@
             $addr = isset($filter['addr'], $filter['addr']['val']) ? "%".DB::escape($filter['addr']['val'])."%" : '%';
             $edu  = isset($filter['edu' ], $filter['edu' ]['val']) ? "%".DB::escape($filter['edu' ]['val'])."%" : '%';
             $work = isset($filter['work'], $filter['addr']['val']) ? "%".DB::escape($filter['work']['val'])."%" : '%';
+            $mail = isset($filter['mail'], $filter['mail']['val']) ? "%".DB::escape($filter['mail']['val'])."%" : '%';
             
             $query = "SELECT * FROM `users` WHERE ".
                         "`full_name` LIKE '$name' AND ".
                         "`address` LIKE '$addr' AND ".
                         "`university_name` LIKE '$edu' AND ".
-                        "`workplace` LIKE '$work' ";
+                        "`workplace` LIKE '$work' AND ".
+                        "`email` LIKE '$mail' AND ".
+                        "`visible` = 1 ";
             
             if (isset($filter['column'], $filter[$filter['column']]['dir']))
             {
@@ -131,7 +137,8 @@
                     'name' => 'full_name',
                     'addr' => 'address',
                     'edu' => 'university_name',
-                    'work' => 'workplace'
+                    'work' => 'workplace',
+                    'mail' => 'email'
                 );
                 
                 $query .= " ORDER BY {$column[$filter['column']]} ".($filter[$filter['column']]['dir'] ? "DESC" : "ASC");
@@ -156,7 +163,6 @@
             	return;
 			}
 			
-			
 			$users = array();
 			$count = 0;
 			
@@ -167,7 +173,8 @@
 					'name' => $row['full_name'],
 					'addr' => $row['address'],
 					'work' => $row['workplace'],
-					'univ' => $row['university_name']
+					'univ' => $row['university_name'],
+					'mail' => $row['email']
 				);
 				
 				$count++;

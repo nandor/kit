@@ -57,6 +57,18 @@
                     </div>
                 </div>
                 <div class = 'row'>
+                    <div class = 'title'> University </div>
+                    <div class = 'value'>
+                    	<?php
+                    		if ($this->user_data['university'])
+                    		{
+				            	echo '<a href = "'.url('univ/profile/'.$this->user_data['university']).'">';
+				            	echo $this->user_data['university_name'].'</a>';
+			            	}
+		            	?>
+                    </div>
+                </div>
+                <div class = 'row'>
                     <div class = 'title'> Trail </div>
                     <div class = 'value'>
                         <div id = "trail"></div>

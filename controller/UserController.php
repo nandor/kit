@@ -8,6 +8,7 @@
         {
             parent::__construct();            
             $this->user = Model::load('UserModel');
+            $this->group = Model::load('GroupModel');
         }
         
         /**
@@ -16,11 +17,16 @@
         function user()
         {
             global $cfg;
+            
             $this->scripts = array(
                 url('script/user.js'),
                 url('script/upload.js'),
                 'https://maps.googleapis.com/maps/api/js?sensor=false',
                 'https://apis.google.com/js/client.js?onload=OnLoadCallback'
+            );
+            
+            $this->variables = array(
+            	"site_url" => "\"{$cfg['host']}{$cfg['base_url']}/\""
             );
             
             $this->render_view('head');
@@ -32,6 +38,8 @@
         */
         function profile($id)
         {
+        	global $cfg;
+        	
             if (!isset($id) || !$id)
             {
                 throw new Exception ("Invalid id");
@@ -39,7 +47,12 @@
             
             $this->user_data = $this->user->get_by_id($id);
             
-            if ($this->user_data['visible'] != 1)
+            if (!$this->user_data)
+            {
+            	throw new Exception ("User does not exist!");
+            }
+            
+            if ($this->user_data['visible'] == 0 && !$this->user->logged_in())
             {
             	throw new Exception ("This user's profile is private!");
 			}
@@ -50,6 +63,11 @@
                 url('script/profile.js'),
                 'https://maps.googleapis.com/maps/api/js?sensor=false'
             );
+            
+            $this->variables = array(
+            	"site_url" => "\"{$cfg['host']}{$cfg['base_url']}/\""
+            );
+            
             
             $this->render_view('head');
             $this->render_view('profile_view');
@@ -62,21 +80,29 @@
         {
             $new_data = array();
             $user_data = $this->user->get_data();
-            $fields = array('address', 'email', 'full_name', 'visible', 'workplace', 'job', 'hobby', 'birthday');
-            
-            if (isset($_POST['birthday']) && $_POST['birthday'] != '' && 
-            	!preg_match('/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}/', $_POST['birthday']))
-        	{
-        		throw new Exception("Invalid birthday format!");
-        	}
-            
-            foreach ($fields as $field)
+            $fields = array(
+				'address' => '/^[[:alnum:]-, ]+$/', 
+				'email' => '/^[a-zA-Z0-9_.]+@[a-zA-Z0-9.]+$/', 
+				'full_name' => '/^[a-zA-Z ]+$/', 
+				'visible' => '/^(0|1)$/', 
+				'workplace' => '/^[a-zA-Z0-9]+$/', 
+				'job' => '/^[a-zA-Z0-9]+$/', 
+				'hobby' => '/^[a-zA-Z0-9, ]+$/', 
+				'birthday' => '/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$/'
+			);
+                        
+            foreach ($fields as $field => $regex)
             {
-                if (isset($_POST[$field]) && $_POST[$field] != '' &&
-                    $_POST[$field] != $user_data[$field])
-                {
-                    $new_data[$field] = $_POST[$field];
-                }
+            	if (!isset($_POST[$field]) || $_POST[$field] == '')
+        		{
+        			continue;
+        		}
+        		if (!isset($fields[$field]) || !preg_match($regex, $_POST[$field]))
+        		{
+        			throw new Exception("Invalid field value!");
+        		}
+        		
+                $new_data[$field] = $_POST[$field];
             }
             
             $this->user->update($new_data);
@@ -192,5 +218,31 @@
             $this->message('Registration successful! You can log in now!');
             $this->redirect('');
         }
+        
+        /**
+        	Join a group
+		*/
+		function join($id)
+		{
+			if (!$this->user->logged_in())
+			{
+				throw new Exception("Access denied!");
+			}
+			
+			$group = $this->group->get_data($id);
+			
+			if (!$group)
+			{
+				throw new Exception("Group not found!");
+			}
+			
+			$this->user->group = $group['id'];
+			$this->user->update(array(
+				'group_name' => $group['name']
+			), false);
+			
+            $this->message("You've joined {$group['name']}!");
+            $this->redirect('');
+		}
     };
 ?>

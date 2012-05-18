@@ -186,11 +186,20 @@
         
         public function get_timeline($id)
         {
-            return DB::query(
+        	$result = array();
+            $data = DB::query(
                 "SELECT * FROM `timeline` WHERE 
                 `user` = '".mysql_real_escape_string($id)."' 
-                ORDER BY `date` ASC"
+                ORDER BY `date` ASC",
+                false
             );
+            
+            while ($evt = DB::next($data))
+            {
+            	$result[] = $evt;
+            }
+            
+            return $result;
         }
         
         public function search($what)
@@ -221,6 +230,7 @@
         public function get_range($i, $j, $sort)
         {        	
             return DB::query("SELECT * FROM `{$this->table_name}`
+            	WHERE `visible` = 1 
         		ORDER BY `$sort` LIMIT $i, $j",
         		false
         	);	
@@ -229,7 +239,7 @@
         
         public function get_count()
         {
-            $res = DB::query("SELECT COUNT(*) AS count FROM {$this->table_name}");
+            $res = DB::query("SELECT COUNT(*) AS count FROM {$this->table_name} WHERE `visible` = 1");
             return $res['count'];
         }
         

@@ -20,6 +20,10 @@
                 url('script/search.js')
             );
             
+            $this->variables = array(
+            	"site_url" => "\"{$cfg['host']}{$cfg['base_url']}/ \"",
+            );
+            
        		$this->data = $this->user->get_range(0, $cfg['per_page'], 'full_name');
             $this->render_view('head');
             $this->render_view('search');

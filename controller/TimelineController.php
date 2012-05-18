@@ -23,7 +23,7 @@
             
             $user = $this->user->get_by_id($id);
             
-            if ($user['visible'] != 1 && $id != $this->user->id)
+            if (!isset($user['visible']) || ($user['visible'] != 1 && $id != $this->user->id))
             {
             	throw new Exception ("This user's profile is private!");
             }
@@ -53,11 +53,14 @@
                 $data = array_merge($data, $this->user->get_timeline($user['id']));
                 $users_by_id[$user['id']] = $user;
             }
+            
             $this->display($users_by_id, $data);
         }
 
         private function display($users, $events)
         {   
+			global $cfg;
+			
             if (!$events)
             {
                 throw new Exception("User / Group not found!");
@@ -67,7 +70,7 @@
             {
                 throw new Exception("No timeline data!");
             }
-
+            
             usort($events, function ($a, $b)
             {
                 return strcasecmp($a['date'], $b['date']);
@@ -78,6 +81,10 @@
             
             $this->scripts = array(
                 url('script/timeline.js')
+            );
+            
+            $this->variables = array(
+            	"site_url" => "\"{$cfg['host']}{$cfg['base_url']}/\""
             );
                 
             $this->render_view('head');

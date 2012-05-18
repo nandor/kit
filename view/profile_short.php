@@ -25,7 +25,12 @@
         <div><span class = 'title'>Full name</span> <?=$this->user->full_name;?> </div>
         <div><span class = 'title'>Username</span> <?= $this->user->name; ?></div>
         <div><span class = 'title'>Date joined</span> <?= date("F j, o", $this->user->time_registered); ?></div>
-        <div><a href="<?=url("profile/{$this->user->id}");?>">Public profile</a></div>    
-        <div><a href="<?=url("group/{$this->user->group}");?>">Group profile</a></div> 
+        <div><span class = 'title'>Profiles</span>
+        	<ul>
+        		<li><a href="<?=url("profile/{$this->user->id}");?>">Public profile</a></li>    
+		    	<li><a href="<?=url("group/{$this->user->group}");?>">Group profile</a></li> 
+		    	<li><a href="<?=url("univ/profile/{$this->user->university}");?>">University profile</a></li> 
+	    	</ul>
+	    </div>
     </div>
 <? endif; ?>

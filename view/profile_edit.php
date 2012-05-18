@@ -59,19 +59,8 @@
                         <div class = 'title'>
                             Birthday
                         </div>
-                        <div id = "address">
+                        <div>
                             <input type = "text" name = "birthday" placeholder = "yyyy-mm-dd"/>
-                        </div>
-                    </div>
-                    <div class = 'row'>
-                        <div class = 'title'>
-                            Education
-                        </div>
-                        <div id = "university">
-                            <input type = "text" name = "university" placeholder = "Institution"/>
-                            <img src = "<?=url('img/plus.png');?>" /><br />
-                            <input type = "text" name = "group" placeholder = "Class / Group"/>
-                            <img src = "<?=url('img/plus.png');?>" /><br /><br />
                         </div>
                     </div>
                     <div class = 'row'>
